@@ -12,14 +12,16 @@
 #include <frc2/command/Subsystem.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 
-void printControllerCond(frc::XboxController &controller);
+void printControllerCond(frc::XboxController& controller);
 
 void Robot::RobotInit() {
   m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
-  frc::CameraServer::StartAutomaticCapture();
+  m_robotDrive.Config();
+
+  //frc::CameraServer::StartAutomaticCapture();
 }
 
 /**
@@ -74,7 +76,8 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
-  printControllerCond(m_controller);
+  //printControllerCond(m_controller);
+  m_robotDrive.printEncoders();
 
   m_robotDrive.iterate(m_controller);
   m_solenoidTest.iterate(m_controller);

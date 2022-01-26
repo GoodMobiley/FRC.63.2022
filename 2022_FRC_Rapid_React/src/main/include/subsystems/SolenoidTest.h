@@ -28,7 +28,7 @@ class SolenoidTest: public frc2::SubsystemBase{
 
         void climb(double rate);
 
-        void iterate(frc::XboxController &pilot);
+        void iterate(frc::XboxController& pilot);
 
     private:
         frc::Compressor m_compressor{RobotMap::PCM1_ID, frc::PneumaticsModuleType::CTREPCM};

@@ -20,7 +20,7 @@ public:
         ENCODER_UNITS_PER_REV = 3600, //units/rev 1250 maybe
         FEET_PER_UNIT_FT = WHEEL_CIRCUMFRENCE / ENCODER_UNITS_PER_REV,  //ft/unit
 
-        CAN_TIME_OUT = 25;
+        CAN_TIME_OUT_MS = 25;
 
     //Talon CAN IDs
     static const int

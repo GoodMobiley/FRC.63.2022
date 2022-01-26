@@ -51,7 +51,7 @@ void SolenoidTest::disable(){
     m_hookSolenoid.Set(frc::DoubleSolenoid::Value::kOff);
 }
 
-void SolenoidTest::iterate(frc::XboxController &pilot){
+void SolenoidTest::iterate(frc::XboxController& pilot){
     if(pilot.GetPOV() == 0){
         raiseClimb();
         raiseHook();
