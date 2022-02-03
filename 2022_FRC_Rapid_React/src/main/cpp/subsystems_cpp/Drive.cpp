@@ -1,6 +1,9 @@
 #include "subsystems/Drive.h"
 
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <fmt/core.h>
+
+using namespace std;
 
 RapidReactDrive::RapidReactDrive()
 {
@@ -58,7 +61,11 @@ void RapidReactDrive::printEncoders(){
 
     for(TalonRef talon : talons)
     {
-        fmt::print(std::to_string(talon.ref.GetSelectedSensorPosition(0)));
+        fmt::print(
+            "Talon ID: " + to_string(talon.ref.GetBaseID()) + "\n" +
+            "Sensor Pos: " + to_string(talon.ref.GetSelectedSensorPosition()) + "\n" +
+            "Sensor Vel: " + to_string(talon.ref.GetSelectedSensorVelocity()) + "\n"
+        );
     }
 }
 
