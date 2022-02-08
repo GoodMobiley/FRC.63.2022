@@ -1,3 +1,6 @@
+//Note, in c++, header files are kind of like class declarations and are initialized by a cpp file
+//This file declares the drive subsystem class (RapidReactDrive)
+
 #pragma once
 
 #include "RobotMap.h"
@@ -7,7 +10,7 @@
 #include <frc/drive/MecanumDrive.h>
 #include <frc/XboxController.h>
 
-class RapidReactDrive: public frc2::SubsystemBase {
+class RapidReactDrive: public frc2::SubsystemBase {     //Declares the class, Lists all private and public variables and methods in the class
     public:
         RapidReactDrive();
         void Config();
@@ -23,7 +26,7 @@ class RapidReactDrive: public frc2::SubsystemBase {
             m_frontRight{RobotMap::FRONT_RIGHT_ID},
             m_rearRight{RobotMap::REAR_RIGHT_ID};
 
-        struct TalonRef {
+        struct TalonRef {       //This is a special one, This creates a new variable type
             TalonRef(ctre::phoenix::motorcontrol::can::WPI_TalonSRX& r):ref(r){}
             ctre::phoenix::motorcontrol::can::WPI_TalonSRX& ref;
         };

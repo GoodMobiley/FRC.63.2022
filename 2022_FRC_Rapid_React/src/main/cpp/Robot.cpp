@@ -2,16 +2,17 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+//You already know what this does...
 #include "Robot.h"
 
 #include <math.h>
 
 #include <cameraserver/CameraServer.h>
-#include <cscore_oo.h>
 #include <fmt/core.h>
 #include <frc2/command/Subsystem.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 
+//Declares this function (defined below)
 void printControllerCond(frc::XboxController& controller);
 
 void Robot::RobotInit() {
