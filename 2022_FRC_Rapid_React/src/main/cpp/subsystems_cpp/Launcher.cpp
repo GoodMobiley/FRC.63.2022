@@ -55,7 +55,13 @@ void RapidReactLauncher::Iterate(frc::XboxController &controller){
     }
 
     if(controller.GetRightTriggerAxis() > .5){
-        LaunchBall();
+        if(!m_pressingTrigger){
+            LaunchBall();
+        }
+        m_pressingTrigger = true;
+    }
+    else{
+        m_pressingTrigger = false;
     }
 
     if(controller.GetBButtonPressed()){

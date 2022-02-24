@@ -21,7 +21,9 @@ class RapidReactLauncher: public frc2::SubsystemBase{
         void Periodic() override;
         void SimulationPeriodic() override;
     private:
-        bool m_motorsEngaged = false;
+        bool 
+            m_motorsEngaged = false,
+            m_pressingTrigger = false;
         frc::Spark
             m_leftMotor{RobotMap::LEFT_LAUNCHER_MOTOR},
             m_rightMotor{RobotMap::RIGHT_LAUNCHER_MOTOR},
