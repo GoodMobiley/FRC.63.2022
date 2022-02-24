@@ -10,7 +10,7 @@
 
 #include "subsystems/Drive.h"
 #include "subsystems/Launcher.h"
-//#include "subsystems/SolenoidTest.h"
+#include "subsystems/Rake.h"
 
 #include <frc/TimedRobot.h>
 #include <frc/XboxController.h>
@@ -37,9 +37,13 @@ class Robot : public frc::TimedRobot {
   const std::string kAutoNameCustom = "My Auto";
   std::string m_autoSelected;
 
-  frc::XboxController m_controller{RobotMap::XBOX_CONTROLLER};
+  frc::XboxController 
+    m_pilot{RobotMap::PILOT_CONTROLLER},
+    m_copilot{RobotMap::COPILOT_CONTROLLER};
+
   frc::Compressor m_compressor{RobotMap::PCM_ID, frc::PneumaticsModuleType::CTREPCM};
   
   RapidReactDrive m_robotDrive;
   RapidReactLauncher m_robotLauncher;
+  RapidReactRake m_robotRake;
 };

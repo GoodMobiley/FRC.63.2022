@@ -74,11 +74,11 @@ void RapidReactDrive::SimulationPeriodic(){
 
 }
 
-void RapidReactDrive::Iterate(frc::XboxController& pilot){
+void RapidReactDrive::Iterate(frc::XboxController &controller){
     m_drive.DriveCartesian(
-        pow(-pilot.GetLeftY(), 1), 
-        pow(pilot.GetLeftX(), 1), 
-        pow(pilot.GetRightX(), 1),
+        pow(-controller.GetLeftY(), 1), 
+        pow(controller.GetLeftX(), 1), 
+        pow(controller.GetRightX(), 1),
         0
     );
 }

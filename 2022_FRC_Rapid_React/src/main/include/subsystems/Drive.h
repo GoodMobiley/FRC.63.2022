@@ -10,14 +10,14 @@
 #include <frc/drive/MecanumDrive.h>
 #include <frc/XboxController.h>
 
-class RapidReactDrive: public frc2::SubsystemBase {     //Declares the class, Lists all private and public variables and methods in the class
+class RapidReactDrive : public frc2::SubsystemBase {     //Declares the class, Lists all private and public variables and methods in the class
     public:
         RapidReactDrive();
         void PrintEncoders();
+        void Iterate(frc::XboxController &controller);
+
         void Periodic() override;
         void SimulationPeriodic() override;
-        void Iterate(frc::XboxController& pilot);
-
     private:
         ctre::phoenix::motorcontrol::can::WPI_TalonSRX
             m_frontLeft{RobotMap::FRONT_LEFT_ID},

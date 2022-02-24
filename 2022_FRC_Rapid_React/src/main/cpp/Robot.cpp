@@ -20,7 +20,7 @@ void Robot::RobotInit() {
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
-  m_compressor.Enabled();
+  m_compressor.EnableDigital();
 }
 
 /**
@@ -69,12 +69,13 @@ void Robot::AutonomousPeriodic() {
 }
 
 void Robot::TeleopInit() {
-  m_robotLauncher.EngageMotors(.3);
+
 }
 
 void Robot::TeleopPeriodic() {
-  
-  m_robotDrive.Iterate(m_controller);
+  m_robotDrive.Iterate(m_pilot);
+  m_robotLauncher.Iterate(m_copilot);
+  m_robotRake.Iterate(m_copilot);
 }
 
 void Robot::DisabledInit() {

@@ -11,7 +11,8 @@ public:
 
     //Controllers
     static const int
-        XBOX_CONTROLLER = 0;
+        PILOT_CONTROLLER = 0,
+        COPILOT_CONTROLLER = 1;
 
     //Wheel Stuff
     static const inline double
@@ -22,6 +23,11 @@ public:
 
         CAN_TIME_OUT_MS = 25;
 
+    //Motor Values
+    static const inline double
+        RAKE_MOTOR_POWER = .5,
+        LAUNCHER_MOTOR_POWER = .95;
+
     //Talon CAN IDs
     static const int
         FRONT_LEFT_ID = 3,
@@ -29,25 +35,23 @@ public:
         FRONT_RIGHT_ID = 4,
         REAR_RIGHT_ID = 2,
 
-        FRONT_ARM_ROTATE_ID = 0,
-
-        COMPRESSOR_CAN_ID = 0;
+        FRONT_ARM_ROTATE_ID = 0;
 
     //Spark Controllers
     static const int
-        LEFT_LAUNCHER_MOTOR = 1,
-        RIGHT_LAUNCHER_MOTOR = 2, 
-        RAKE_ID = 3;
+        LEFT_LAUNCHER_MOTOR = 2,
+        RIGHT_LAUNCHER_MOTOR = 1, 
+        RAKE_MOTOR_ID = 3;
 
     //Solenoid IDs
     static const int
-        PCM_ID = 1,
+        PCM_ID = 2,
 
         RAKE_EXTEND_SOLENOID = 0,
         RAKE_RETRACT_SOLENOID = 1,
 
-        BALL_LOADER_EXTEND_SOLENOID = 2,
-        BALL_LOADER_RETRACT_SOLENOID = 3,
+        BALL_STAGE_EXTEND_SOLENOID = 2,
+        BALL_STAGE_RETRACT_SOLENOID = 3,
 
         BALL_SHOVER_EXTEND_SOLENOID = 4,
         BALL_SHOVER_RETRACT_SOLENOID = 5;
