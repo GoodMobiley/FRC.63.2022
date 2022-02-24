@@ -29,43 +29,28 @@ public:
         FRONT_RIGHT_ID = 4,
         REAR_RIGHT_ID = 2,
 
-        LEFT_WINCH_ID = 0,
+        FRONT_ARM_ROTATE_ID = 0,
 
         COMPRESSOR_CAN_ID = 0;
 
     //Spark Controllers
     static const int
-        BOTTOM_INTAKE_ID = 6,
-        BALL_TRACKER_ID = 7, //Top Intake
-        RAKE_ID = 9,
-
-        COLOR_WHEEL_ID = 8;
+        LEFT_LAUNCHER_MOTOR = 1,
+        RIGHT_LAUNCHER_MOTOR = 2, 
+        RAKE_ID = 3;
 
     //Solenoid IDs
     static const int
-        //PCM 1#
-        PCM1_ID = 1,
+        PCM_ID = 1,
 
-        COLOR_WHEEL_EXTEND_SOLENOID = 0,
-        COLOR_WHEEL_RETRACT_SOLENOID = 1,
+        RAKE_EXTEND_SOLENOID = 0,
+        RAKE_RETRACT_SOLENOID = 1,
 
-        CLIMB_EXTEND_SOLENOID = 2,
-        CLIMB_RETRACT_SOLENOID = 3,
+        BALL_LOADER_EXTEND_SOLENOID = 2,
+        BALL_LOADER_RETRACT_SOLENOID = 3,
 
-        HOOK_EXTEND_SOLENOID = 4,
-        HOOK_RETRACT_SOLENOID = 5,
-
-        //PCM 2#
-        PCM2_ID = 2,
-
-        BALL_HATCH_EXTEND_SOLENOID = 0,
-        BALL_HATCH_RETRACT_SOLENOID = 1,
-
-        BALL_RAKE_EXTEND_SOLENOID = 2,
-        BALL_RAKE_RETRACT_SOLENOID = 3,
-
-        HOOK_RELEASE_EXTEND_SOLENOID = 4,
-        HOOK_RELEASE_RETRACT_SOLENOID = 5;
+        BALL_SHOVER_EXTEND_SOLENOID = 4,
+        BALL_SHOVER_RETRACT_SOLENOID = 5;
 };
 
 #endif

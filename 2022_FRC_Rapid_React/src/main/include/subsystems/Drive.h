@@ -13,11 +13,10 @@
 class RapidReactDrive: public frc2::SubsystemBase {     //Declares the class, Lists all private and public variables and methods in the class
     public:
         RapidReactDrive();
-        void Config();
-        void printEncoders();
+        void PrintEncoders();
         void Periodic() override;
         void SimulationPeriodic() override;
-        void iterate(frc::XboxController& pilot);
+        void Iterate(frc::XboxController& pilot);
 
     private:
         ctre::phoenix::motorcontrol::can::WPI_TalonSRX

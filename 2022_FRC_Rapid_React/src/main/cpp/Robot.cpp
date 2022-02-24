@@ -20,9 +20,7 @@ void Robot::RobotInit() {
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
-  m_robotDrive.Config();
-
-  //frc::CameraServer::StartAutomaticCapture();
+  m_compressor.Enabled();
 }
 
 /**
@@ -71,20 +69,17 @@ void Robot::AutonomousPeriodic() {
 }
 
 void Robot::TeleopInit() {
-  fmt::print("teleop start \n");
-
-  m_solenoidTest.enable();
+  m_robotLauncher.EngageMotors(.3);
 }
 
 void Robot::TeleopPeriodic() {
-  //printControllerCond(m_controller);
-  m_robotDrive.printEncoders();
-
-  m_robotDrive.iterate(m_controller);
-  m_solenoidTest.iterate(m_controller);
+  
+  m_robotDrive.Iterate(m_controller);
 }
 
-void Robot::DisabledInit() {}
+void Robot::DisabledInit() {
+  m_robotLauncher.DisengageMotors();
+}
 
 void Robot::DisabledPeriodic() {}
 
@@ -96,6 +91,7 @@ void Robot::TestPeriodic() {
 
 }
 
+//This puppy prints out all the active axies of the controller when called
 void printControllerCond(frc::XboxController &controller){
   std::string space = "     ";
   fmt::print(

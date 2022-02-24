@@ -9,7 +9,8 @@
 #include "RobotMap.h"
 
 #include "subsystems/Drive.h"
-#include "subsystems/SolenoidTest.h"
+#include "subsystems/Launcher.h"
+//#include "subsystems/SolenoidTest.h"
 
 #include <frc/TimedRobot.h>
 #include <frc/XboxController.h>
@@ -37,7 +38,8 @@ class Robot : public frc::TimedRobot {
   std::string m_autoSelected;
 
   frc::XboxController m_controller{RobotMap::XBOX_CONTROLLER};
+  frc::Compressor m_compressor{RobotMap::PCM_ID, frc::PneumaticsModuleType::CTREPCM};
   
   RapidReactDrive m_robotDrive;
-  SolenoidTest m_solenoidTest;
+  RapidReactLauncher m_robotLauncher;
 };
