@@ -7,7 +7,7 @@ using namespace std;
 
 RapidReactDrive::RapidReactDrive() //Constructor Method (A function with the same name of a class defined in the class runs on the creation of a new child of the class) 
 {
-    m_drive.SetDeadband(.02); //sets the min value of joystic input
+    m_drive.SetDeadband(.1); //sets the min value of joystic input
 
     m_frontLeft.SetInverted(false);  //Sets both right motors to reverse when receving a positive input (Adjusts for Mecanum Drive)
     m_rearLeft.SetInverted(false);
@@ -76,9 +76,9 @@ void RapidReactDrive::SimulationPeriodic(){
 
 void RapidReactDrive::Iterate(frc::XboxController &controller){
     m_drive.DriveCartesian(
-        pow(-controller.GetLeftY(), 1), 
-        pow(controller.GetLeftX(), 1), 
-        pow(controller.GetRightX(), 1),
+        pow(-controller.GetLeftY(), 1) * .8, 
+        pow(controller.GetLeftX(), 1) * .8, 
+        pow(controller.GetRightX(), 1) * .8,
         0
     );
 }

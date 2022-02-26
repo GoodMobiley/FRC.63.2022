@@ -22,7 +22,11 @@ class RapidReactRake : public frc2::SubsystemBase {
         
         void Periodic() override;
         void SimulationPeriodic() override;
-    private:
-        frc::DoubleSolenoid m_rakeSolenoid{RobotMap::PCM_ID, frc::PneumaticsModuleType::CTREPCM, RobotMap::RAKE_EXTEND_SOLENOID, RobotMap::RAKE_RETRACT_SOLENOID};
+
         frc::Spark m_rakeMotor{RobotMap::RAKE_MOTOR_ID};
+    private:
+        bool 
+            m_ballStaging = false,
+            m_rakeOn = false;
+        frc::DoubleSolenoid m_rakeSolenoid{RobotMap::PCM_ID, frc::PneumaticsModuleType::CTREPCM, RobotMap::RAKE_EXTEND_SOLENOID, RobotMap::RAKE_RETRACT_SOLENOID};
 };

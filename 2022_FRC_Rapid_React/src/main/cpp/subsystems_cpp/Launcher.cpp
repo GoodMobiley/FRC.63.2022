@@ -3,10 +3,10 @@
 #include <fmt/core.h>
 
 RapidReactLauncher::RapidReactLauncher(){
-    m_leftMotor.SetInverted(false);
+    m_leftMotor.SetInverted(true);
     m_leftMotor.SetSafetyEnabled(false);
 
-    m_rightMotor.SetInverted(false);
+    m_rightMotor.SetInverted(true);
     m_rightMotor.SetSafetyEnabled(false);
 }
 void RapidReactLauncher::Periodic(){
@@ -15,9 +15,14 @@ void RapidReactLauncher::Periodic(){
 void RapidReactLauncher::SimulationPeriodic(){
     
 }
-void RapidReactLauncher::EngageMotors(){
-    m_leftMotor.Set(RobotMap::LAUNCHER_MOTOR_POWER);
-    m_rightMotor.Set(RobotMap::LAUNCHER_MOTOR_POWER);
+void RapidReactLauncher::EngageMotorsLong(){
+    m_leftMotor.Set(RobotMap::LAUNCHER_MOTOR_POWER_LONG * .85);
+    m_rightMotor.Set(RobotMap::LAUNCHER_MOTOR_POWER_LONG);
+    m_motorsEngaged = true;
+}
+void RapidReactLauncher::EngageMotorsShort(){
+    m_leftMotor.Set(RobotMap::LAUNCHER_MOTOR_POWER_SHORT * .85);
+    m_rightMotor.Set(RobotMap::LAUNCHER_MOTOR_POWER_SHORT);
     m_motorsEngaged = true;
 }
 void RapidReactLauncher::DisengageMotors(){
@@ -27,22 +32,16 @@ void RapidReactLauncher::DisengageMotors(){
 }
 
 void RapidReactLauncher::EngageBallStaging(){
-    m_stageMotor.Set(.5);
     m_stagingSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
     m_shovingSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
 }
 void RapidReactLauncher::DisengageBallStaging(){
-    m_stageMotor.StopMotor();
     m_stagingSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
 }
 
 void RapidReactLauncher::LaunchBall(){
     if (m_motorsEngaged){
         m_shovingSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
-    }
-    else{
-        fmt::print("Motors Weren't Engaged!");
-        EngageMotors();
     }
 }
 
@@ -57,6 +56,14 @@ void RapidReactLauncher::Iterate(frc::XboxController &controller){
     if(controller.GetRightTriggerAxis() > .5){
         if(!m_pressingTrigger){
             LaunchBall();
+            EngageMotorsLong();
+        }
+        m_pressingTrigger = true;
+    }
+    else if(controller.GetRightBumper()){
+        if(!m_pressingTrigger){
+            LaunchBall();
+            EngageMotorsShort();
         }
         m_pressingTrigger = true;
     }

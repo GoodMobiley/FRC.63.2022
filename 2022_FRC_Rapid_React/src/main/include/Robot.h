@@ -11,6 +11,7 @@
 #include "subsystems/Drive.h"
 #include "subsystems/Launcher.h"
 #include "subsystems/Rake.h"
+#include "subsystems/Climb.h"
 
 #include <frc/TimedRobot.h>
 #include <frc/XboxController.h>
@@ -46,4 +47,5 @@ class Robot : public frc::TimedRobot {
   RapidReactDrive m_robotDrive;
   RapidReactLauncher m_robotLauncher;
   RapidReactRake m_robotRake;
+  RapidReactClimb m_robotClimb;
 };

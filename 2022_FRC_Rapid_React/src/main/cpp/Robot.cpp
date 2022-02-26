@@ -74,6 +74,7 @@ void Robot::TeleopInit() {
 
 void Robot::TeleopPeriodic() {
   m_robotDrive.Iterate(m_pilot);
+  m_robotClimb.Iterate(m_pilot);
   m_robotLauncher.Iterate(m_copilot);
   m_robotRake.Iterate(m_copilot);
 }

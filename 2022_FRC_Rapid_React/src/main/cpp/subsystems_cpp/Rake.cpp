@@ -1,7 +1,7 @@
 #include "subsystems/Rake.h"
 
 RapidReactRake::RapidReactRake(){
-    m_rakeMotor.SetInverted(false);
+    m_rakeMotor.SetInverted(true);
     m_rakeMotor.SetSafetyEnabled(false);
 }
 
@@ -27,10 +27,31 @@ void RapidReactRake::DisengageBallLoading(){
 }
 
 void RapidReactRake::Iterate(frc::XboxController &controller){
-    if (controller.GetPOV() == 180){
-        EngageBallLoading();
+    if (controller.GetAButton()){
+        m_ballStaging = true;
     }
-    else if (controller.GetPOV() == 0){
-        DisengageBallLoading();
+    else{
+        m_ballStaging = false;
+    }
+
+    if(controller.GetPOV() == 0){
+        m_rakeOn = false;
+    }
+    if(controller.GetPOV() == 180){
+        m_rakeOn = true;
+    }
+
+    if(m_rakeOn || m_ballStaging){
+        EngageMotors();
+    }
+    else{
+        DisengageMotors();
+    }
+
+    if(m_rakeOn){
+        LowerRake();
+    }
+    else{
+        RaiseRake();
     }
 }

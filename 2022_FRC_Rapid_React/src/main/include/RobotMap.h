@@ -26,7 +26,9 @@ public:
     //Motor Values
     static const inline double
         RAKE_MOTOR_POWER = .5,
-        LAUNCHER_MOTOR_POWER = .95;
+        LAUNCHER_MOTOR_POWER_LONG = .95,
+        LAUNCHER_MOTOR_POWER_SHORT = .915,
+        FRONT_HOOK_MOTOR_POWER = .25;
 
     //Talon CAN IDs
     static const int
@@ -55,6 +57,11 @@ public:
 
         BALL_SHOVER_EXTEND_SOLENOID = 4,
         BALL_SHOVER_RETRACT_SOLENOID = 5;
+
+    //Limit Switch IDs
+    static const int
+        LEFT_LIMIT_SWITCH_ID = 4,
+        RIGHT_LIMIT_SWITCH_ID = 5;
 };
 
 #endif
