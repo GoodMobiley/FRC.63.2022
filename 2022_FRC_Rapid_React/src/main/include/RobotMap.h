@@ -26,8 +26,9 @@ public:
     //Motor Values
     static const inline double
         RAKE_MOTOR_POWER = .5,
-        LAUNCHER_MOTOR_POWER_LONG = .95,
-        LAUNCHER_MOTOR_POWER_SHORT = .915,
+        LONG_MOTOR_POWER = .95,
+        SHORT_MOTOR_POWER = .915,
+        PUKE_MOTOR_POWER = .3,
         FRONT_HOOK_MOTOR_POWER = .25;
 
     //Talon CAN IDs
@@ -37,7 +38,7 @@ public:
         FRONT_RIGHT_ID = 4,
         REAR_RIGHT_ID = 2,
 
-        FRONT_ARM_ROTATE_ID = 0;
+        FRONT_ARM_ROTATE_ID = 5;
 
     //Spark Controllers
     static const int

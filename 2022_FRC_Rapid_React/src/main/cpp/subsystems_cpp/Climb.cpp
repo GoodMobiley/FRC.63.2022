@@ -21,11 +21,11 @@ void RapidReactClimb::Iterate(frc::XboxController & controller){
         m_frontHookMotor.Set(-RobotMap::FRONT_HOOK_MOTOR_POWER);
     }
 
-    if(!m_leftLimitSwitch.Get()){
+    /*if(!m_leftLimitSwitch.Get()){
         fmt::print("Left");
     }
     if(!m_rightLimitSwitch.Get()){
         fmt::print("Right");
-    }
+    }*/
 }
 

@@ -16,6 +16,7 @@
 #include <frc/TimedRobot.h>
 #include <frc/XboxController.h>
 #include <frc/smartdashboard/SendableChooser.h>
+#include <frc/DigitalInput.h>//<--Temp
 
 #include <frc/Compressor.h>
 
@@ -48,4 +49,8 @@ class Robot : public frc::TimedRobot {
   RapidReactLauncher m_robotLauncher;
   RapidReactRake m_robotRake;
   RapidReactClimb m_robotClimb;
+
+  frc::DigitalInput //<--Temp
+            m_leftLimitSwitch{RobotMap::LEFT_LIMIT_SWITCH_ID},
+            m_rightLimitSwitch{RobotMap::RIGHT_LIMIT_SWITCH_ID};
 };

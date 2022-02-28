@@ -12,8 +12,7 @@
 class RapidReactLauncher: public frc2::SubsystemBase{
     public:
         RapidReactLauncher();
-        void EngageMotorsLong();
-        void EngageMotorsShort();
+        void EngageMotors(double motorPower);
         void DisengageMotors();
         void EngageBallStaging();
         void DisengageBallStaging();
@@ -24,8 +23,7 @@ class RapidReactLauncher: public frc2::SubsystemBase{
         void SimulationPeriodic() override;
     private:
         bool 
-            m_motorsEngaged = false,
-            m_pressingTrigger = false;
+            m_motorsEngaged = false;
         frc::Spark
             m_leftMotor{RobotMap::LEFT_LAUNCHER_MOTOR},
             m_rightMotor{RobotMap::RIGHT_LAUNCHER_MOTOR};

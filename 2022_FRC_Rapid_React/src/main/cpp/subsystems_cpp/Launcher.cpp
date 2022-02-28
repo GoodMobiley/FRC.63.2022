@@ -15,14 +15,9 @@ void RapidReactLauncher::Periodic(){
 void RapidReactLauncher::SimulationPeriodic(){
     
 }
-void RapidReactLauncher::EngageMotorsLong(){
-    m_leftMotor.Set(RobotMap::LAUNCHER_MOTOR_POWER_LONG * .85);
-    m_rightMotor.Set(RobotMap::LAUNCHER_MOTOR_POWER_LONG);
-    m_motorsEngaged = true;
-}
-void RapidReactLauncher::EngageMotorsShort(){
-    m_leftMotor.Set(RobotMap::LAUNCHER_MOTOR_POWER_SHORT * .85);
-    m_rightMotor.Set(RobotMap::LAUNCHER_MOTOR_POWER_SHORT);
+void RapidReactLauncher::EngageMotors(double motorPower){
+    m_leftMotor.Set(motorPower * .85);
+    m_rightMotor.Set(motorPower);
     m_motorsEngaged = true;
 }
 void RapidReactLauncher::DisengageMotors(){
@@ -43,35 +38,24 @@ void RapidReactLauncher::LaunchBall(){
     if (m_motorsEngaged){
         m_shovingSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
     }
+    else{
+        fmt::print("Motors Not Engaged");
+    }
 }
 
 void RapidReactLauncher::Iterate(frc::XboxController &controller){
-    if(controller.GetAButtonPressed()){
+    if      (controller.GetYButtonPressed()){EngageMotors(RobotMap::LONG_MOTOR_POWER);}
+    else if (controller.GetXButtonPressed()){EngageMotors(RobotMap::SHORT_MOTOR_POWER);}
+    else if (controller.GetAButtonPressed()){EngageMotors(RobotMap::PUKE_MOTOR_POWER);}
+    else if (controller.GetBButtonPressed()){DisengageMotors();}
+
+    if (controller.GetLeftTriggerAxis() > .5){
         EngageBallStaging();
     }
-    else if(controller.GetAButtonReleased()){
-        DisengageBallStaging();
-    }
-
-    if(controller.GetRightTriggerAxis() > .5){
-        if(!m_pressingTrigger){
-            LaunchBall();
-            EngageMotorsLong();
-        }
-        m_pressingTrigger = true;
-    }
-    else if(controller.GetRightBumper()){
-        if(!m_pressingTrigger){
-            LaunchBall();
-            EngageMotorsShort();
-        }
-        m_pressingTrigger = true;
-    }
     else{
-        m_pressingTrigger = false;
-    }
-
-    if(controller.GetBButtonPressed()){
-        DisengageMotors();
+        DisengageBallStaging();
+        if (controller.GetRightTriggerAxis() > .5){
+            LaunchBall();
+        }
     }
 }

@@ -27,31 +27,12 @@ void RapidReactRake::DisengageBallLoading(){
 }
 
 void RapidReactRake::Iterate(frc::XboxController &controller){
-    if (controller.GetAButton()){
-        m_ballStaging = true;
-    }
-    else{
-        m_ballStaging = false;
-    }
+    if(controller.GetPOV() == 0){m_rakeOn = false;}
+    if(controller.GetPOV() == 180){m_rakeOn = true;}
 
-    if(controller.GetPOV() == 0){
-        m_rakeOn = false;
-    }
-    if(controller.GetPOV() == 180){
-        m_rakeOn = true;
-    }
+    if(m_rakeOn || controller.GetLeftTriggerAxis() > .5){EngageMotors();}
+    else{DisengageMotors();}
 
-    if(m_rakeOn || m_ballStaging){
-        EngageMotors();
-    }
-    else{
-        DisengageMotors();
-    }
-
-    if(m_rakeOn){
-        LowerRake();
-    }
-    else{
-        RaiseRake();
-    }
+    if(m_rakeOn){LowerRake();}
+    else{RaiseRake();}
 }

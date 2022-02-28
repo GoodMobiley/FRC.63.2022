@@ -20,7 +20,7 @@ class RapidReactClimb: public frc2::SubsystemBase{
     private:
         frc::PWMSparkMax m_frontHookMotor{RobotMap::FRONT_ARM_ROTATE_ID};
 
-        frc::DigitalInput 
+        /*frc::DigitalInput 
             m_leftLimitSwitch{RobotMap::LEFT_LIMIT_SWITCH_ID},
-            m_rightLimitSwitch{RobotMap::RIGHT_LIMIT_SWITCH_ID};
+            m_rightLimitSwitch{RobotMap::RIGHT_LIMIT_SWITCH_ID};*/
 };
