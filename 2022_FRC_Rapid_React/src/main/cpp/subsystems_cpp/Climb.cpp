@@ -23,7 +23,6 @@ void RapidReactClimb::Periodic(){
         m_extendingHooks = false;
         m_hooksExtended = true;
     }
-
     if(m_retractingHooks){
         RetractHooks();
     }

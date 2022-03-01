@@ -15,6 +15,7 @@ class RapidReactDrive : public frc2::SubsystemBase {     //Declares the class, L
         RapidReactDrive();
         double AverageEncoders();
         void PrintEncoders();
+        void ResetEncoders();
         void Reverse(double power);
         void Forward(double power);
         void Iterate(frc::XboxController &controller);

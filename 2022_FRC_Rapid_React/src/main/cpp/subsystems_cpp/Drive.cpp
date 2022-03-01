@@ -42,8 +42,6 @@ RapidReactDrive::RapidReactDrive() //Constructor Method (A function with the sam
         //sets sensor to mag encoder
         talon.ref.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative, 0, RobotMap::CAN_TIME_OUT_MS);
         talon.ref.ConfigSelectedFeedbackCoefficient(1.0, 0, RobotMap::CAN_TIME_OUT_MS);
-
-        talon.ref.SetSelectedSensorPosition(0);
     }
 }
 
@@ -53,8 +51,15 @@ double RapidReactDrive::AverageEncoders(){
         m_frontRight.GetSelectedSensorPosition()+
         m_rearLeft.GetSelectedSensorPosition()+
         m_rearRight.GetSelectedSensorPosition()
-    )/4;
+    ) / 4;
 }
+void RapidReactDrive::ResetEncoders(){
+    m_frontLeft.SetSelectedSensorPosition(0);
+    m_frontRight.SetSelectedSensorPosition(0);
+    m_rearLeft.SetSelectedSensorPosition(0);
+    m_rearRight.SetSelectedSensorPosition(0);
+}
+
 void RapidReactDrive::PrintEncoders(){
     TalonRef talons[] = 
     {

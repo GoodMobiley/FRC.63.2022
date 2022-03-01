@@ -29,7 +29,7 @@ class RapidReactClimb: public frc2::SubsystemBase{
 
         bool
             m_extendingHooks = false,
-            m_hooksExtended = false,
+            m_hooksExtended = true,
             m_retractingHooks = true;
 
         frc::Timer m_timer;
