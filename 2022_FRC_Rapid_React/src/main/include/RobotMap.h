@@ -23,6 +23,14 @@ public:
 
         CAN_TIME_OUT_MS = 25;
 
+    //Climb Rotatio Stuff
+    static const inline double
+        HOOK_ENCODER_UNITS_PER_REV = 256,
+        HOOK_IDLE_POSE = 0,
+        HOOK_RETRACT_POSE = 18,
+        HOOK_GRAB_POSE = 30;
+
+
     //Motor Values
     static const inline double
         RAKE_MOTOR_POWER = .5,
@@ -31,7 +39,7 @@ public:
         SHORT_MOTOR_POWER = .915,
         PUKE_MOTOR_POWER = .56,
 
-        HOOK_ROTATION_MOTOR_POWER = .25,
+        HOOK_ROTATION_MOTOR_POWER = .5,
         HOOK_EXTEND_MOTOR_POWER = 1,
         HOOK_RETRACT_MOTOR_POWER = .5;
 
@@ -42,7 +50,7 @@ public:
         FRONT_RIGHT_ID = 4,
         REAR_RIGHT_ID = 2,
 
-        FRONT_HOOK_ROTATE_ID = 0,
+        FRONT_HOOK_ROTATE_ID = 1,
         LEFT_HOOK_MOTOR_ID = 0,
         RIGHT_HOOK_MOTOR_ID = 0;
 

@@ -21,6 +21,7 @@ void Robot::RobotInit() {
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
   m_compressor.EnableDigital();
+  m_robotClimb.ResetEncoders();
 }
 
 /**
@@ -85,7 +86,7 @@ void Robot::AutonomousPeriodic() {
 }
 
 void Robot::TeleopInit() {
-
+  
 }
 
 void Robot::TeleopPeriodic() {
