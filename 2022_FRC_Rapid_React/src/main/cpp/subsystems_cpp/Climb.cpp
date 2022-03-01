@@ -12,7 +12,6 @@ RapidReactClimb::RapidReactClimb(){
     m_rightHookMotor.SetSafetyEnabled(false);
 
     m_hookRotationMotor.SetInverted(false);
-    m_hookRotationMotor.SetSafetyEnabled(false);
 
     m_timer.Reset();
     m_timer.Start();
@@ -79,7 +78,7 @@ void RapidReactClimb::CancleHookCycle(){
 }
 
 void RapidReactClimb::Iterate(frc::XboxController & controller){
-    if(controller.GetBButton()){
+    if(controller.GetYButton()){
         m_hookRotationMotor.Set(RobotMap::HOOK_ROTATION_MOTOR_POWER);
     }
     else if (controller.GetXButton()){

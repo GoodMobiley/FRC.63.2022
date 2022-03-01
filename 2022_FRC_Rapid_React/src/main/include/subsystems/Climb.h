@@ -4,8 +4,10 @@
 
 #include <ctre/phoenix/motorcontrol/can/WPI_TalonSRX.h>
 #include <ctre/phoenix/motorcontrol/can/WPI_VictorSPX.h>
-#include <frc/motorcontrol/PWMSparkMax.h>
+#include <rev/CANSparkMax.h>
+#include <rev/REVUtils.h>
 #include <frc/DigitalInput.h>
+
 
 #include <frc2/command/SubsystemBase.h>
 #include <frc/XboxController.h>
@@ -34,7 +36,9 @@ class RapidReactClimb: public frc2::SubsystemBase{
 
         frc::Timer m_timer;
 
-        frc::PWMSparkMax m_hookRotationMotor{RobotMap::FRONT_HOOK_ROTATE_ID};
+        rev::CANSparkMax m_hookRotationMotor{
+            RobotMap::FRONT_HOOK_ROTATE_ID, rev::CANSparkMax::MotorType::kBrushless
+        };
 
         ctre::phoenix::motorcontrol::can::WPI_VictorSPX m_leftHookMotor{RobotMap::LEFT_HOOK_MOTOR_ID};
         ctre::phoenix::motorcontrol::can::WPI_TalonSRX  m_rightHookMotor{RobotMap::RIGHT_HOOK_MOTOR_ID};
