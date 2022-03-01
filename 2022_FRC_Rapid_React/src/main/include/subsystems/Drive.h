@@ -13,7 +13,10 @@
 class RapidReactDrive : public frc2::SubsystemBase {     //Declares the class, Lists all private and public variables and methods in the class
     public:
         RapidReactDrive();
+        double AverageEncoders();
         void PrintEncoders();
+        void Reverse(double power);
+        void Forward(double power);
         void Iterate(frc::XboxController &controller);
 
         void Periodic() override;
@@ -24,7 +27,6 @@ class RapidReactDrive : public frc2::SubsystemBase {     //Declares the class, L
             m_rearLeft{RobotMap::REAR_LEFT_ID},
             m_frontRight{RobotMap::FRONT_RIGHT_ID},
             m_rearRight{RobotMap::REAR_RIGHT_ID};
-
         struct TalonRef {       //This is a special one, This creates a new variable type
             TalonRef(ctre::phoenix::motorcontrol::can::WPI_TalonSRX& r):ref(r){}
             ctre::phoenix::motorcontrol::can::WPI_TalonSRX& ref;

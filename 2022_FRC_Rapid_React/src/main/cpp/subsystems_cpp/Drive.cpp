@@ -47,6 +47,14 @@ RapidReactDrive::RapidReactDrive() //Constructor Method (A function with the sam
     }
 }
 
+double RapidReactDrive::AverageEncoders(){
+    return(double) (
+        m_frontLeft.GetSelectedSensorPosition()+
+        m_frontRight.GetSelectedSensorPosition()+
+        m_rearLeft.GetSelectedSensorPosition()+
+        m_rearRight.GetSelectedSensorPosition()
+    )/4;
+}
 void RapidReactDrive::PrintEncoders(){
     TalonRef talons[] = 
     {
@@ -72,6 +80,14 @@ void RapidReactDrive::Periodic(){
 
 void RapidReactDrive::SimulationPeriodic(){
 
+}
+
+void RapidReactDrive::Reverse(double power){
+    m_drive.DriveCartesian(-power, 0, 0, 0);
+}
+
+void RapidReactDrive::Forward(double power){
+    m_drive.DriveCartesian(power, 0, 0, 0);
 }
 
 void RapidReactDrive::Iterate(frc::XboxController &controller){
