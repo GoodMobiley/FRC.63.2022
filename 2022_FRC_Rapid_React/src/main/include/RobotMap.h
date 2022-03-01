@@ -32,7 +32,8 @@ public:
         PUKE_MOTOR_POWER = .56,
 
         HOOK_ROTATION_MOTOR_POWER = .25,
-        HOOK_EXTEND_MOTOR_POWER = .5;
+        HOOK_EXTEND_MOTOR_POWER = 1,
+        HOOK_RETRACT_MOTOR_POWER = .5;
 
     //Talon CAN IDs
     static const int

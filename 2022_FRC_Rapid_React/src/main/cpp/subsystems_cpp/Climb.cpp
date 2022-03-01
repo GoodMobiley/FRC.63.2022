@@ -40,11 +40,11 @@ void RapidReactClimb::SimulationPeriodic(){
 
 void RapidReactClimb::RetractHooks(){
     //retracts left if not right limit switch
-    if (!m_leftLimitSwitch.Get())   {m_leftHookMotor.Set(-RobotMap::HOOK_EXTEND_MOTOR_POWER);}
+    if (!m_leftLimitSwitch.Get())   {m_leftHookMotor.Set(-RobotMap::HOOK_RETRACT_MOTOR_POWER);}
     else {m_leftHookMotor.StopMotor();}
 
     //retracts right if not right limit switch
-    if (!m_rightLimitSwitch.Get())  {m_rightHookMotor.Set(-RobotMap::HOOK_EXTEND_MOTOR_POWER);}
+    if (!m_rightLimitSwitch.Get())  {m_rightHookMotor.Set(-RobotMap::HOOK_RETRACT_MOTOR_POWER);}
     else {m_rightHookMotor.StopMotor();}
 
     if(m_rightLimitSwitch.Get() && m_leftLimitSwitch.Get()){

@@ -25,7 +25,7 @@ class RapidReactClimb: public frc2::SubsystemBase{
         void SimulationPeriodic() override;
 
     private:
-        double const m_extentionTime = 1.5;
+        double const m_extentionTime = .75;
 
         bool
             m_extendingHooks = false,

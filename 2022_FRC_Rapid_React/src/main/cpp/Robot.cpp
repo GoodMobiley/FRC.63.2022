@@ -51,7 +51,6 @@ void Robot::AutonomousInit() {
   m_autoSelected = frc::SmartDashboard::GetString("Auto Selector",
        kAutoNameDefault);
   fmt::print("Auto selected: {}\n", m_autoSelected);
-  fmt::print("yourMom");
 
   if (m_autoSelected == kAutoNameCustom) {
     // Custom Auto goes here
