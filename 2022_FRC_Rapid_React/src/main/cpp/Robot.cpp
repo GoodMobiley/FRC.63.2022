@@ -77,13 +77,6 @@ void Robot::TeleopPeriodic() {
   m_robotClimb.Iterate(m_pilot);
   m_robotLauncher.Iterate(m_copilot);
   m_robotRake.Iterate(m_copilot);
-  
-  if(!m_leftLimitSwitch.Get()){
-        fmt::print("Left");
-    }
-    if(!m_rightLimitSwitch.Get()){
-        fmt::print("Right");
-    }
 }
 
 void Robot::DisabledInit() {

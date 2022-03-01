@@ -3,6 +3,7 @@
 RapidReactRake::RapidReactRake(){
     m_rakeMotor.SetInverted(true);
     m_rakeMotor.SetSafetyEnabled(false);
+    RaiseRake();
 }
 
 void RapidReactRake::Periodic(){
