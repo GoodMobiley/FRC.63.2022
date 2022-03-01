@@ -64,7 +64,6 @@ void RapidReactClimb::ToggleHookExtention(){
     if (!m_retractingHooks && !m_extendingHooks){
         if (m_hooksExtended){
             m_retractingHooks = true;
-            m_extendingHooks = false;
         }
         else{
             m_timer.Reset();
