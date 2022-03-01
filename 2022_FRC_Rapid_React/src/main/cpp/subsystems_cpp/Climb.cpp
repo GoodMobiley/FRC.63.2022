@@ -91,5 +91,6 @@ void RapidReactClimb::Iterate(frc::XboxController & controller){
     else if(controller.GetBButton()){
         CancleHookCycle();
     }
+    
 }
 
