@@ -49,7 +49,7 @@ void RapidReactLauncher::Iterate(frc::XboxController &controller){
     else if (controller.GetAButtonPressed()){EngageMotors(RobotMap::PUKE_MOTOR_POWER);}
     else if (controller.GetBButtonPressed()){DisengageMotors();}
 
-    if (controller.GetLeftTriggerAxis() > .5){
+    if (controller.GetLeftTriggerAxis() > .5 || controller.GetLeftBumper()){
         EngageBallStaging();
     }
     else{

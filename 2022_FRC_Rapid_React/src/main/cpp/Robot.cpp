@@ -21,6 +21,7 @@ void Robot::RobotInit() {
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
   m_compressor.EnableDigital();
+  m_robotClimb.ResetEncoders();
 }
 
 /**
@@ -32,7 +33,10 @@ void Robot::RobotInit() {
  * LiveWindow and SmartDashboard integrated updating.
  */
 void Robot::RobotPeriodic() {
-  
+  m_robotClimb.Periodic();
+  m_robotDrive.Periodic();
+  m_robotLauncher.Periodic();
+  m_robotRake.Periodic();
 }
 
 /**
@@ -51,34 +55,38 @@ void Robot::AutonomousInit() {
   m_autoSelected = frc::SmartDashboard::GetString("Auto Selector",
        kAutoNameDefault);
   fmt::print("Auto selected: {}\n", m_autoSelected);
-  fmt::print("yourMom");
 
   if (m_autoSelected == kAutoNameCustom) {
     // Custom Auto goes here
   } else {
     // Default Auto goes here
   }
+  m_robotDrive.ResetEncoders();
+  m_robotLauncher.EngageMotors(RobotMap::SHORT_MOTOR_POWER);
 }
 
 void Robot::AutonomousPeriodic() {
   if (m_autoSelected == kAutoNameCustom) {
     // Custom Auto goes here
-    double 
-      distanceTraveled = m_robotDrive.AverageEncoders() / RobotMap::ENCODER_UNITS_PER_REV * RobotMap::WHEEL_CIRCUMFRENCE, 
-      targetDistance = 10;
-    if (distanceTraveled < targetDistance) {
-       m_robotDrive.Forward(((targetDistance + 1) - distanceTraveled) / 20);
-    }
-    else {
-      m_robotLauncher.LaunchBall();
-    }
+    
   } else {
     // Default Auto goes here
   }
+  double 
+    distanceTraveled = -m_robotDrive.AverageEncoders() / RobotMap::ENCODER_UNITS_PER_REV * RobotMap::WHEEL_CIRCUMFRENCE, 
+    targetDistance = 10;
+  if (distanceTraveled < targetDistance) {
+      m_robotDrive.Forward(((targetDistance + 2) - distanceTraveled) / targetDistance);
+  }
+  else {
+    m_robotLauncher.LaunchBall();
+    m_robotLauncher.DisengageMotors();
+  }
+  fmt::print(std::to_string(distanceTraveled) + "\n");
 }
 
 void Robot::TeleopInit() {
-
+  
 }
 
 void Robot::TeleopPeriodic() {
