@@ -111,6 +111,9 @@ void RapidReactClimb::Iterate(frc::XboxController & controller){
     else if (controller.GetXButton()){
         SetHookAngle(RobotMap::HOOK_IDLE_POSE);
     }
+    else if (controller.GetRightBumper()){
+        SetHookAngle(RobotMap::HOOK_RETRACT_POSE);
+    }
 
     if (controller.GetLeftTriggerAxis() > .5){
         JogHookRotation(RobotMap::HOOK_ROTATION_MOTOR_POWER/2);
@@ -128,6 +131,5 @@ void RapidReactClimb::Iterate(frc::XboxController & controller){
     else if(controller.GetBButton()){
         CancleHookCycle();
     }
-    
 }
 

@@ -27,8 +27,8 @@ public:
     static const inline double
         HOOK_ENCODER_UNITS_PER_REV = 256,
         HOOK_IDLE_POSE = 0,
-        HOOK_RETRACT_POSE = 18,
-        HOOK_GRAB_POSE = 30;
+        HOOK_RETRACT_POSE = -5,
+        HOOK_GRAB_POSE = 5;
 
 
     //Motor Values
@@ -40,8 +40,8 @@ public:
         PUKE_MOTOR_POWER = .56,
 
         HOOK_ROTATION_MOTOR_POWER = .5,
-        HOOK_EXTEND_MOTOR_POWER = 1,
-        HOOK_RETRACT_MOTOR_POWER = .5;
+        HOOK_EXTEND_MOTOR_POWER = .5,
+        HOOK_RETRACT_MOTOR_POWER = 1;
 
     //Talon CAN IDs
     static const int
