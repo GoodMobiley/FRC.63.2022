@@ -86,7 +86,7 @@ void Robot::AutonomousPeriodic() {
 }
 
 void Robot::TeleopInit() {
-  
+  m_robotClimb.RetractHooks(RobotMap::HOOK_RETRACT_MOTOR_POWER_RETURN);
 }
 
 void Robot::TeleopPeriodic() {

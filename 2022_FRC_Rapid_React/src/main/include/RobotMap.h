@@ -41,7 +41,8 @@ public:
 
         HOOK_ROTATION_MOTOR_POWER = .5,
         HOOK_EXTEND_MOTOR_POWER = .5,
-        HOOK_RETRACT_MOTOR_POWER = 1;
+        HOOK_RETRACT_MOTOR_POWER_CLIMB = 1,
+        HOOK_RETRACT_MOTOR_POWER_RETURN = .5;
 
     //Talon CAN IDs
     static const int

@@ -16,14 +16,12 @@
 class RapidReactClimb: public frc2::SubsystemBase{
     public:
         RapidReactClimb();
-        void RetractHooks();
         void ExtendHooks();
+        void RetractHooks(double power);
         void DisengageMotors();
         void ResetEncoders();
         void SetHookAngle(double angle);
         void JogHookRotation(double power);
-        void ToggleHookExtention();
-        void CancleHookCycle();
         void Iterate(frc::XboxController & controller);
 
         void Periodic() override;
@@ -36,13 +34,12 @@ class RapidReactClimb: public frc2::SubsystemBase{
 
         double 
             m_hookRotation = 0,
-            m_targetHookRotation = RobotMap::HOOK_IDLE_POSE;
+            m_targetHookRotation = RobotMap::HOOK_IDLE_POSE,
+            m_hookRetractPower = RobotMap::HOOK_RETRACT_MOTOR_POWER_RETURN;
 
-        bool
-            m_extendingHooks = false,
-            m_hooksExtended = true,
-            m_retractingHooks = true,
-            m_hooksSet = true;
+        int8_t m_hookExtentionStatus = 0; // -1: retracting, -2: retracted, 1: extending, 2: extended
+
+        bool m_hooksSet = true;
 
         frc::Timer m_timer;
 

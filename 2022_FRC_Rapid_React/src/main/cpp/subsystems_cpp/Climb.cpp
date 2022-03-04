@@ -16,21 +16,31 @@ RapidReactClimb::RapidReactClimb(){
 
     m_timer.Reset();
     m_timer.Start();
+
+    RetractHooks(RobotMap::HOOK_RETRACT_MOTOR_POWER_RETURN);
 }
 
 void RapidReactClimb::Periodic(){
-    if (m_timer.Get() > units::second_t(m_extentionTime) && m_extendingHooks){
-        m_extendingHooks = false;
-        m_hooksExtended = true;
-    }
-    if(m_retractingHooks){
-        RetractHooks();
-    }
-    else if(m_extendingHooks){
-        ExtendHooks();
-    }
-    else{
+    if (m_timer.Get() > units::second_t(m_extentionTime) && m_hookExtentionStatus == 1){
         DisengageMotors();
+        m_hookExtentionStatus = 2;
+    }
+    else if (m_hookExtentionStatus == -1){//|| m_hookExtentionStatus == -2){
+        if (!m_leftLimitSwitch.Get()) {
+            m_leftHookMotor.Set(-m_hookRetractPower);
+        } else {
+            m_leftHookMotor.StopMotor();
+        }
+
+        if (!m_rightLimitSwitch.Get()) {
+            m_rightHookMotor.Set(-m_hookRetractPower);
+        } else {
+            m_rightHookMotor.StopMotor();
+        }
+
+        if (m_rightLimitSwitch.Get() && m_leftLimitSwitch.Get()){
+            m_hookExtentionStatus = -2;
+        }
     }
 
     m_hookRotation = m_hookRotationEncoder.GetPosition() / RobotMap::HOOK_ENCODER_UNITS_PER_REV * 360;
@@ -50,23 +60,19 @@ void RapidReactClimb::SimulationPeriodic(){
 
 }
 
-void RapidReactClimb::RetractHooks(){
-    //retracts left if not right limit switch
-    if (!m_leftLimitSwitch.Get())   {m_leftHookMotor.Set(-RobotMap::HOOK_RETRACT_MOTOR_POWER);}
-    else {m_leftHookMotor.StopMotor();}
-
-    //retracts right if not right limit switch
-    if (!m_rightLimitSwitch.Get())  {m_rightHookMotor.Set(-RobotMap::HOOK_RETRACT_MOTOR_POWER);}
-    else {m_rightHookMotor.StopMotor();}
-
-    if(m_rightLimitSwitch.Get() && m_leftLimitSwitch.Get()){
-        m_retractingHooks = false;
-        m_hooksExtended = false;
-    }
+void RapidReactClimb::RetractHooks(double power){
+    m_hookRetractPower = power;
+    m_leftHookMotor.Set(-power);
+    m_rightHookMotor.Set(-power);
+    m_hookExtentionStatus = -1;
 }
 void RapidReactClimb::ExtendHooks(){
-    m_leftHookMotor.Set(RobotMap::HOOK_EXTEND_MOTOR_POWER);
-    m_rightHookMotor.Set(RobotMap::HOOK_EXTEND_MOTOR_POWER);
+    if (m_hookExtentionStatus == -2){
+        m_timer.Reset(); m_timer.Start();
+        m_leftHookMotor.Set(RobotMap::HOOK_EXTEND_MOTOR_POWER);
+        m_rightHookMotor.Set(RobotMap::HOOK_EXTEND_MOTOR_POWER);
+        m_hookExtentionStatus = 1;
+    }
 }
 void RapidReactClimb::DisengageMotors(){
     m_leftHookMotor.StopMotor();
@@ -85,34 +91,12 @@ void RapidReactClimb::JogHookRotation(double power){
     m_hookRotationMotor.Set(power);
 }
 
-void RapidReactClimb::ToggleHookExtention(){
-    if (!m_retractingHooks && !m_extendingHooks){
-        if (m_hooksExtended){
-            m_retractingHooks = true;
-        }
-        else{
-            m_timer.Reset();
-            m_timer.Start();
-            m_extendingHooks = true;
-        }
-    }
-}
-void RapidReactClimb::CancleHookCycle(){
-    m_extendingHooks = false;
-    m_retractingHooks = false;
-    m_hooksExtended = true;
-    DisengageMotors();
-}
-
 void RapidReactClimb::Iterate(frc::XboxController & controller){
     if(controller.GetYButton()){
         SetHookAngle(RobotMap::HOOK_GRAB_POSE);
     }
     else if (controller.GetXButton()){
         SetHookAngle(RobotMap::HOOK_IDLE_POSE);
-    }
-    else if (controller.GetRightBumper()){
-        SetHookAngle(RobotMap::HOOK_RETRACT_POSE);
     }
 
     if (controller.GetLeftTriggerAxis() > .5){
@@ -125,11 +109,14 @@ void RapidReactClimb::Iterate(frc::XboxController & controller){
         ResetEncoders();
     }
 
-    if(controller.GetAButtonPressed()){
-        ToggleHookExtention();
+    if (controller.GetRightTriggerAxis() > .5){
+        RetractHooks(RobotMap::HOOK_RETRACT_MOTOR_POWER_CLIMB);
     }
-    else if(controller.GetBButton()){
-        CancleHookCycle();
+    else if (controller.GetBButton()){
+        RetractHooks(RobotMap::HOOK_RETRACT_MOTOR_POWER_RETURN);
+    }
+    else if (controller.GetRightBumper()){
+        ExtendHooks();
     }
 }
 
