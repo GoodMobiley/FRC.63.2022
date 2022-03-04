@@ -8,7 +8,7 @@
 #include <rev/SparkMaxRelativeEncoder.h>
 #include <frc/DigitalInput.h>
 
-
+#include <units/time.h>
 #include <frc2/command/SubsystemBase.h>
 #include <frc/XboxController.h>
 #include <frc/Timer.h>
@@ -22,26 +22,57 @@ class RapidReactClimb: public frc2::SubsystemBase{
         void ResetEncoders();
         void SetHookAngle(double angle);
         void JogHookRotation(double power);
+        void StartClimbCycle();
+        void CancleClimbCycle();
         void Iterate(frc::XboxController & controller);
 
         void Periodic() override;
         void SimulationPeriodic() override;
 
     private:
-        double const 
+        const double
             m_extentionTime = 1.85,
-            m_angleFudge = 2;
+            m_angleFudge = 2,
+            m_climbStageHookAngles[8] {//angle of front hooks per auto-climb stage
+                0,  //0: straight up
+                5,  //1: lean backward 5 degrees
+                5,  //2: stay at 5
+                -5, //3: lean forward 5 degrees
+                -5, //4: stay at -5
+                -10,//5: lean forward 10 degrees
+                -50,//6: rotate for handoff
+                0   //7: rotate back to 0
+            }; 
+        const int8_t 
+            m_climbStageHookExtentions[8] {//-1: retract return, -2: retract climb, 1: extend
+                -2, //0: climb
+                1,  //1:  (Slight Extend
+                -1, //2:  & Retract)
+                -1, //3: stay retracted
+                1,  //4: extend
+                1,  //5: stay extended
+                -2, //6: climb
+                0   //7: do nothing (retract till retracted)
+            };
+        const units::second_t
+            m_climbStageTimestamps[8] {2_s, 4_s, 6_s, 8_s, 10_s, 12_s, 14_s, 16_s}; //time that the program switches climb stages (in seconds after process started) (tbd)
 
         double 
             m_hookRotation = 0,
-            m_targetHookRotation = RobotMap::HOOK_IDLE_POSE,
+            m_targetHookRotation = 0,
             m_hookRetractPower = RobotMap::HOOK_RETRACT_MOTOR_POWER_RETURN;
 
-        int8_t m_hookExtentionStatus = 0; // -1: retracting, -2: retracted, 1: extending, 2: extended
+        int8_t 
+            m_hookExtentionStatus = 0, // -1: retracting, -2: retracted, 1: extending, 2: extended
+            m_climbStageCounter = 0;
 
-        bool m_hooksSet = true;
+        bool 
+            m_hooksSet = true,
+            m_climbing = false;
 
-        frc::Timer m_timer;
+        frc::Timer 
+            m_extentionTimer,
+            m_climbTimer;
 
         rev::CANSparkMax m_hookRotationMotor{RobotMap::FRONT_HOOK_ROTATE_ID, rev::CANSparkMax::MotorType::kBrushless};
         rev::SparkMaxRelativeEncoder m_hookRotationEncoder = m_hookRotationMotor.GetEncoder(rev::CANEncoder::EncoderType::kHallSensor, 42);

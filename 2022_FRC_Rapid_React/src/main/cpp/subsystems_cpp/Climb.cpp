@@ -14,14 +14,34 @@ RapidReactClimb::RapidReactClimb(){
     m_hookRotationMotor.SetInverted(false);
     m_hookRotationEncoder.SetPosition(0);
 
-    m_timer.Reset();
-    m_timer.Start();
+    m_extentionTimer.Reset();   m_extentionTimer.Start();
 
     RetractHooks(RobotMap::HOOK_RETRACT_MOTOR_POWER_RETURN);
 }
 
 void RapidReactClimb::Periodic(){
-    if (m_timer.Get() > units::second_t(m_extentionTime) && m_hookExtentionStatus == 1){
+    if (m_climbing && m_climbTimer.Get() > m_climbStageTimestamps[m_climbStageCounter]){
+        m_climbStageCounter++;
+        if (m_climbStageCounter >= sizeof(m_climbStageTimestamps)/sizeof(m_climbStageTimestamps[0])){
+            m_climbing = false;
+        }
+    }
+    if (m_climbing){
+        SetHookAngle(m_climbStageHookAngles[m_climbStageCounter]);
+        switch (m_climbStageHookExtentions[m_climbStageCounter]){
+            case -2:
+                RetractHooks(RobotMap::HOOK_RETRACT_MOTOR_POWER_CLIMB);
+                break;
+            case -1:
+                RetractHooks(RobotMap::HOOK_RETRACT_MOTOR_POWER_RETURN);
+                break;
+            case 1:
+                ExtendHooks();
+                break;
+        }
+    }
+
+    if (m_extentionTimer.Get() > units::second_t(m_extentionTime) && m_hookExtentionStatus == 1){
         DisengageMotors();
         m_hookExtentionStatus = 2;
     }
@@ -68,7 +88,7 @@ void RapidReactClimb::RetractHooks(double power){
 }
 void RapidReactClimb::ExtendHooks(){
     if (m_hookExtentionStatus == -2){
-        m_timer.Reset(); m_timer.Start();
+        m_extentionTimer.Reset(); m_extentionTimer.Start();
         m_leftHookMotor.Set(RobotMap::HOOK_EXTEND_MOTOR_POWER);
         m_rightHookMotor.Set(RobotMap::HOOK_EXTEND_MOTOR_POWER);
         m_hookExtentionStatus = 1;
@@ -90,33 +110,45 @@ void RapidReactClimb::JogHookRotation(double power){
     m_hooksSet = false;
     m_hookRotationMotor.Set(power);
 }
+void RapidReactClimb::StartClimbCycle(){
+    m_climbTimer.Reset();   m_climbTimer.Start();
+    m_climbStageCounter = 0;
+    m_climbing = true;
+}
+void RapidReactClimb::CancleClimbCycle(){
+    m_climbing = false;
+    m_hookExtentionStatus = 2;
+}
 
 void RapidReactClimb::Iterate(frc::XboxController & controller){
-    if(controller.GetYButton()){
-        SetHookAngle(RobotMap::HOOK_GRAB_POSE);
-    }
-    else if (controller.GetXButton()){
-        SetHookAngle(RobotMap::HOOK_IDLE_POSE);
-    }
-
-    if (controller.GetLeftTriggerAxis() > .5){
+    if (m_climbing){
+        if (controller.GetBButton()){
+            CancleClimbCycle();
+        }
+    } else {
+        if (controller.GetLeftTriggerAxis() > .5){
         JogHookRotation(RobotMap::HOOK_ROTATION_MOTOR_POWER/2);
-    }
-    else if (controller.GetLeftBumper()){
-        JogHookRotation(-RobotMap::HOOK_ROTATION_MOTOR_POWER/2);
-    }
-    else if (!m_hooksSet){
-        ResetEncoders();
-    }
+        }
+        else if (controller.GetLeftBumper()){
+            JogHookRotation(-RobotMap::HOOK_ROTATION_MOTOR_POWER/2);
+        }
+        else if (!m_hooksSet){
+            ResetEncoders();
+        }
 
-    if (controller.GetRightTriggerAxis() > .5){
+        if (controller.GetRightTriggerAxis() > .5){
         RetractHooks(RobotMap::HOOK_RETRACT_MOTOR_POWER_CLIMB);
-    }
-    else if (controller.GetBButton()){
-        RetractHooks(RobotMap::HOOK_RETRACT_MOTOR_POWER_RETURN);
-    }
-    else if (controller.GetRightBumper()){
-        ExtendHooks();
+        }
+        else if (controller.GetBButton()){
+            RetractHooks(RobotMap::HOOK_RETRACT_MOTOR_POWER_RETURN);
+        }
+        else if (controller.GetRightBumper()){
+            ExtendHooks();
+        }
+
+        if (controller.GetAButton()){
+            StartClimbCycle();
+        }
     }
 }
 

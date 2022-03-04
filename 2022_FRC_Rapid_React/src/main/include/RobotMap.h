@@ -25,11 +25,7 @@ public:
 
     //Climb Rotatio Stuff
     static const inline double
-        HOOK_ENCODER_UNITS_PER_REV = 256,
-        HOOK_IDLE_POSE = 0,
-        HOOK_RETRACT_POSE = -5,
-        HOOK_GRAB_POSE = 5;
-
+        HOOK_ENCODER_UNITS_PER_REV = 256;
 
     //Motor Values
     static const inline double
