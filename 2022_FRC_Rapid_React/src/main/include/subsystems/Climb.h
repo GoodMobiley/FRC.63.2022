@@ -43,7 +43,7 @@ class RapidReactClimb: public frc2::SubsystemBase{
                 0   //7: rotate back to 0
             }; 
         const int8_t 
-            m_climbStageHookExtentions[8] {//-1: retract return, -2: retract climb, 1: extend
+            m_climbStageHookExtensions[8] {//-1: retract return, -2: retract climb, 1: extend
                 -2, //0: climb
                 1,  //1:  (Slight Extend
                 -1, //2:  & Retract)
@@ -54,7 +54,7 @@ class RapidReactClimb: public frc2::SubsystemBase{
                 0   //7: do nothing (retract till retracted)
             };
         const units::second_t
-            m_extentionTime = 1.85_s,
+            m_extensionTime = 1.85_s,
             m_climbStageTimestamps[8] {2_s, 4_s, 4.5_s, 6.5_s, 8.5_s, 10.5_s, 14_s, 15_s}; //time that the program switches climb stages (in seconds after process started) (tbd)
 
         double 
@@ -63,7 +63,7 @@ class RapidReactClimb: public frc2::SubsystemBase{
             m_hookRetractPower = RobotMap::HOOK_RETRACT_MOTOR_POWER_RETURN;
 
         int8_t 
-            m_hookExtentionStatus = 0, // -1: retracting, -2: retracted, 1: extending, 2: extended
+            m_hookExtensionStatus = 0, // -1: retracting, -2: retracted, 1: extending, 2: extended
             m_climbStageCounter = 0;
 
         bool 
@@ -71,7 +71,7 @@ class RapidReactClimb: public frc2::SubsystemBase{
             m_climbing = false;
 
         frc::Timer 
-            m_extentionTimer,
+            m_extensionTimer,
             m_climbTimer;
 
         rev::CANSparkMax m_hookRotationMotor{RobotMap::FRONT_HOOK_ROTATE_ID, rev::CANSparkMax::MotorType::kBrushless};
