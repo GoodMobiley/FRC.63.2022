@@ -12,9 +12,6 @@
 #include <frc2/command/Subsystem.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 
-//Declares this function (defined below)
-void printControllerCond(frc::XboxController& controller);
-
 void Robot::RobotInit() {
   m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
@@ -100,7 +97,9 @@ void Robot::DisabledInit() {
   m_robotLauncher.DisengageMotors();
 }
 
-void Robot::DisabledPeriodic() {}
+void Robot::DisabledPeriodic() {
+
+}
 
 void Robot::TestInit() {
   fmt::print("Test Start \n");
@@ -110,14 +109,13 @@ void Robot::TestPeriodic() {
 
 }
 
-//This puppy prints out all the active axies of the controller when called
-void printControllerCond(frc::XboxController &controller){
-  std::string space = "     ";
-  fmt::print(
-    "X: " + std::to_string( -controller.GetLeftY()  ) + space + 
-    "Y: " + std::to_string(  controller.GetLeftX()  ) + space +
-    "Z: " + std::to_string(  controller.GetRightX() ) + "\n"
-  );
+void Robot::EngageBallStaging() {
+  m_robotRake.EngageBallStaging();
+  m_robotLauncher.EngageBallStaging();
+}
+void Robot::DisengageBallStaging() {
+  m_robotRake.DisengageBallStaging();
+  m_robotLauncher.DisengageBallStaging();
 }
 
 #ifndef RUNNING_FRC_TESTS
