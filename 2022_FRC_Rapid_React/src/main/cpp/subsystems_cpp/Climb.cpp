@@ -41,7 +41,7 @@ void RapidReactClimb::Periodic(){
         }
     }
 
-    if (m_extentionTimer.Get() > units::second_t(m_extentionTime) && m_hookExtentionStatus == 1){
+    if (m_extentionTimer.Get() > m_extentionTime && m_hookExtentionStatus == 1){
         DisengageMotors();
         m_hookExtentionStatus = 2;
     }
