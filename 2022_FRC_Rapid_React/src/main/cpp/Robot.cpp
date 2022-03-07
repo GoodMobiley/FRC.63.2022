@@ -73,7 +73,7 @@ void Robot::AutonomousPeriodic() {
     distanceTraveled = -m_robotDrive.AverageEncoders() / RobotMap::ENCODER_UNITS_PER_REV * RobotMap::WHEEL_CIRCUMFRENCE, 
     targetDistance = 10;
   if (distanceTraveled < targetDistance) {
-      m_robotDrive.Forward(((targetDistance + 2) - distanceTraveled) / targetDistance);
+      m_robotDrive.Forward(((targetDistance + 2) - distanceTraveled) / targetDistance / 2);
   }
   else {
     m_robotLauncher.LaunchBall();

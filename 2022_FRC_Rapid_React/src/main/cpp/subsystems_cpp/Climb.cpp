@@ -21,6 +21,7 @@ RapidReactClimb::RapidReactClimb(){
 
 void RapidReactClimb::Periodic(){
     if (m_climbing && m_climbTimer.Get() > m_climbStageTimestamps[m_climbStageCounter]){
+        m_climbTimer.Reset();   m_climbTimer.Start();
         m_climbStageCounter++;
         if (m_climbStageCounter >= sizeof(m_climbStageTimestamps)/sizeof(m_climbStageTimestamps[0])){
             m_climbing = false;

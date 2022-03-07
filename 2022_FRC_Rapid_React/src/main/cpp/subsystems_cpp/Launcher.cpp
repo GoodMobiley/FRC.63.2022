@@ -16,8 +16,8 @@ void RapidReactLauncher::SimulationPeriodic(){
     
 }
 void RapidReactLauncher::EngageMotors(double motorPower){
-    m_leftMotor.Set(motorPower * .85);
-    m_rightMotor.Set(motorPower);
+    m_leftMotor.Set(motorPower * 1);
+    m_rightMotor.Set(motorPower * 1);
     m_motorsEngaged = true;
 }
 void RapidReactLauncher::DisengageMotors(){

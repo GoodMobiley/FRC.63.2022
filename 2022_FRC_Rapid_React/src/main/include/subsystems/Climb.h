@@ -34,12 +34,12 @@ class RapidReactClimb: public frc2::SubsystemBase{
             m_angleFudge = 2,
             m_climbStageHookAngles[8] {//angle of front hooks per auto-climb stage
                 0,  //0: straight up
-                5,  //1: lean backward 5 degrees
-                5,  //2: stay at 5
-                -5, //3: lean forward 5 degrees
-                -5, //4: stay at -5
-                -10,//5: lean forward 10 degrees
-                -50,//6: rotate for handoff
+                10,  //1: lean backward 5 degrees
+                10,  //2: stay at 5
+                -30, //3: lean forward 5 degrees
+                -30, //4: stay at -5
+                -30,//5: lean forward 10 degrees
+                -40,//6: rotate for handoff
                 0   //7: rotate back to 0
             }; 
         const int8_t 
@@ -55,7 +55,7 @@ class RapidReactClimb: public frc2::SubsystemBase{
             };
         const units::second_t
             m_extentionTime = 1.85_s,
-            m_climbStageTimestamps[8] {2_s, 4_s, 6_s, 8_s, 10_s, 12_s, 14_s, 16_s}; //time that the program switches climb stages (in seconds after process started) (tbd)
+            m_climbStageTimestamps[8] {2_s, 1_s, 1_s, 1_s, 1_s, 1_s, 1_s, 1.3_s}; //time that the program switches climb stages (in seconds between stages) (tbd)
 
         double 
             m_hookRotation = 0,

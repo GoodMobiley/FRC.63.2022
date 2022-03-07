@@ -31,11 +31,11 @@ public:
     static const inline double
         RAKE_MOTOR_POWER = .5,
 
-        LONG_MOTOR_POWER = 1,
-        SHORT_MOTOR_POWER = .915,
+        LONG_MOTOR_POWER = .92,
+        SHORT_MOTOR_POWER = .9,
         PUKE_MOTOR_POWER = .56,
 
-        HOOK_ROTATION_MOTOR_POWER = .5,
+        HOOK_ROTATION_MOTOR_POWER = .3,
         HOOK_EXTEND_MOTOR_POWER = .5,
         HOOK_RETRACT_MOTOR_POWER_CLIMB = 1,
         HOOK_RETRACT_MOTOR_POWER_RETURN = .5;
