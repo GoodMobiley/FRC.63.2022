@@ -15,8 +15,10 @@ class RapidReactRake : public frc2::SubsystemBase {
         void RaiseRake();
         void EngageMotors();
         void DisengageMotors();
-        void EngageBallLoading();
-        void DisengageBallLoading();
+        void EngageRake();
+        void DisengageRake();
+        void EngageBallStaging();
+        void DisengageBallStaging();
         void Iterate(frc::XboxController &controller);
 
         
@@ -27,6 +29,7 @@ class RapidReactRake : public frc2::SubsystemBase {
     private:
         bool 
             m_ballStaging = false,
-            m_rakeOn = false;
+            m_rake = false;
+
         frc::DoubleSolenoid m_rakeSolenoid{RobotMap::PCM_ID, frc::PneumaticsModuleType::CTREPCM, RobotMap::RAKE_EXTEND_SOLENOID, RobotMap::RAKE_RETRACT_SOLENOID};
 };

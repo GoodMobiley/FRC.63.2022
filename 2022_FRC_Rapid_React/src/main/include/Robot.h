@@ -21,6 +21,9 @@
 
 class Robot : public frc::TimedRobot {
  public:
+  void EngageBallStaging();
+  void DisengageBallStaging();
+
   void RobotInit() override;
   void RobotPeriodic() override;
   void AutonomousInit() override;
