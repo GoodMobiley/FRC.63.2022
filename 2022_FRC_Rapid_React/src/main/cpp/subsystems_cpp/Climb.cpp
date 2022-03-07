@@ -20,11 +20,12 @@ RapidReactClimb::RapidReactClimb(){
 }
 
 void RapidReactClimb::Periodic(){
-    if (m_climbing && m_climbTimer.Get() > m_climbStageTimestamps[m_climbStageCounter]){
+    /*if (m_climbing && m_climbTimer.Get() > m_climbStageTimestamps[m_climbStageCounter]){
         m_climbStageCounter++;
-        if (m_climbStageCounter >= sizeof(m_climbStageTimestamps)/sizeof(m_climbStageTimestamps[0])){
-            m_climbing = false;
-        }
+        
+    }*/
+    if (m_climbStageCounter >= sizeof(m_climbStageTimestamps)/sizeof(m_climbStageTimestamps[0])){
+        m_climbing = false;
     }
     if (m_climbing){
         SetHookAngle(m_climbStageHookAngles[m_climbStageCounter]);
@@ -124,6 +125,9 @@ void RapidReactClimb::Iterate(frc::XboxController & controller){
     if (m_climbing){
         if (controller.GetBButton()){
             CancleClimbCycle();
+        }
+        if (controller.GetAButtonPressed()){
+            m_climbStageCounter++;
         }
     } else {
         if (controller.GetLeftTriggerAxis() > .5){
