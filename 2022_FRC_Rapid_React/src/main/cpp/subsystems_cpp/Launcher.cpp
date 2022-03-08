@@ -31,7 +31,7 @@ void RapidReactLauncher::EngageBallStaging(){
     m_shovingSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
 }
 void RapidReactLauncher::DisengageBallStaging(){
-    m_stagingSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
+    m_stagingSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
 }
 
 void RapidReactLauncher::LaunchBall(){
@@ -49,13 +49,15 @@ void RapidReactLauncher::Iterate(frc::XboxController &controller){
     else if (controller.GetAButtonPressed()){EngageMotors(RobotMap::PUKE_MOTOR_POWER);}
     else if (controller.GetBButtonPressed()){DisengageMotors();}
 
-    if (controller.GetLeftTriggerAxis() > .5 || controller.GetLeftBumper()){
+    /*if (controller.GetLeftTriggerAxis() > .5 || controller.GetLeftBumper()){
         EngageBallStaging();
     }
     else{
         DisengageBallStaging();
-        if (controller.GetRightTriggerAxis() > .5){
-            LaunchBall();
-        }
+    }*/
+    if (controller.GetRightTriggerAxis() > .5){
+        LaunchBall();
+    } else {
+        EngageBallStaging();
     }
 }
