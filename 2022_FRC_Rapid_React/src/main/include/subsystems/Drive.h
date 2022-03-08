@@ -13,7 +13,8 @@
 class RapidReactDrive : public frc2::SubsystemBase {     //Declares the class, Lists all private and public variables and methods in the class
     public:
         RapidReactDrive();
-        double AverageEncoders();
+        double AveragePosition();
+        double AverageVelocity();
         void PrintEncoders();
         void ResetEncoders();
         void Reverse(double power);

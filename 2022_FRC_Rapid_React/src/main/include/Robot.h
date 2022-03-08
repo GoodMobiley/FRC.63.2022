@@ -16,6 +16,7 @@
 #include <frc/TimedRobot.h>
 #include <frc/XboxController.h>
 #include <frc/smartdashboard/SendableChooser.h>
+#include <frc/Timer.h>
 
 #include <frc/Compressor.h>
 
@@ -23,6 +24,7 @@ class Robot : public frc::TimedRobot {
  public:
   void EngageBallStaging();
   void DisengageBallStaging();
+  void RestartAutoTimer();
 
   void RobotInit() override;
   void RobotPeriodic() override;
@@ -36,6 +38,9 @@ class Robot : public frc::TimedRobot {
   void TestPeriodic() override;
 
  private:
+  frc::Timer m_autoTimer;
+  int m_autoCounter = -1;
+
   frc::SendableChooser<std::string> m_chooser;
   const std::string kAutoNameDefault = "Default";
   const std::string kAutoNameCustom = "My Auto";

@@ -39,7 +39,7 @@ void RapidReactLauncher::LaunchBall(){
         m_shovingSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
     }
     else{
-        fmt::print("Motors Not Engaged");
+        fmt::print("Motors Not Engaged\n");
     }
 }
 

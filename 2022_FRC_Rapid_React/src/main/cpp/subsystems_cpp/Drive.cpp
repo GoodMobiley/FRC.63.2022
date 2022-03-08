@@ -45,12 +45,20 @@ RapidReactDrive::RapidReactDrive() //Constructor Method (A function with the sam
     }
 }
 
-double RapidReactDrive::AverageEncoders(){
+double RapidReactDrive::AveragePosition(){
     return(double) (
-        m_frontLeft.GetSelectedSensorPosition()+
-        m_frontRight.GetSelectedSensorPosition()+
+        -m_frontLeft.GetSelectedSensorPosition()-
+        m_frontRight.GetSelectedSensorPosition()-
         m_rearLeft.GetSelectedSensorPosition()+
         m_rearRight.GetSelectedSensorPosition()
+    ) / 4;
+}
+double RapidReactDrive::AverageVelocity(){
+    return(double) (
+        -m_frontLeft.GetSelectedSensorVelocity()-
+        m_frontRight.GetSelectedSensorVelocity()-
+        m_rearLeft.GetSelectedSensorVelocity()+
+        m_rearRight.GetSelectedSensorVelocity()
     ) / 4;
 }
 void RapidReactDrive::ResetEncoders(){
@@ -72,15 +80,15 @@ void RapidReactDrive::PrintEncoders(){
     for(TalonRef talon : talons)
     {
         fmt::print(
-            "Talon ID: " + to_string(talon.ref.GetBaseID()) + "\n" +
-            "Sensor Pos: " + to_string(talon.ref.GetSelectedSensorPosition()) + "\n" +
+            "Talon ID: " + to_string(talon.ref.GetDeviceID()) + "     " +
+            "Sensor Pos: " + to_string(talon.ref.GetSelectedSensorPosition()) + "     " +
             "Sensor Vel: " + to_string(talon.ref.GetSelectedSensorVelocity()) + "\n"
         );
     }
 }
 
 void RapidReactDrive::Periodic(){
-
+    //fmt::print(std::to_string(AverageEncoders()) + "\n");
 }
 
 void RapidReactDrive::SimulationPeriodic(){

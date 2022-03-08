@@ -11,6 +11,7 @@
 #include <fmt/core.h>
 #include <frc2/command/Subsystem.h>
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <units/time.h>
 
 void Robot::RobotInit() {
   m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
@@ -60,8 +61,13 @@ void Robot::AutonomousInit() {
   }
   m_robotDrive.ResetEncoders();
   m_robotLauncher.EngageMotors(RobotMap::SHORT_MOTOR_POWER);
+  m_autoCounter = -1;
+  m_robotRake.EngageRake();
 }
 
+void Robot::RestartAutoTimer(){
+  m_autoTimer.Reset(); m_autoTimer.Start();
+}
 void Robot::AutonomousPeriodic() {
   if (m_autoSelected == kAutoNameCustom) {
     // Custom Auto goes here
@@ -70,16 +76,40 @@ void Robot::AutonomousPeriodic() {
     // Default Auto goes here
   }
   double 
-    distanceTraveled = -m_robotDrive.AverageEncoders() / RobotMap::ENCODER_UNITS_PER_REV * RobotMap::WHEEL_CIRCUMFRENCE, 
-    targetDistance = 10;
+    distanceTraveled = m_robotDrive.AveragePosition() / RobotMap::ENCODER_UNITS_PER_REV * RobotMap::WHEEL_CIRCUMFRENCE,
+    velocity = m_robotDrive.AverageVelocity() / RobotMap::ENCODER_UNITS_PER_REV * RobotMap::WHEEL_CIRCUMFRENCE, 
+    targetDistance = 8;
   if (distanceTraveled < targetDistance) {
-      m_robotDrive.Forward(((targetDistance + 2) - distanceTraveled) / targetDistance / 2);
+      m_robotDrive.Forward(1.0 / 2.0);
   }
-  else {
-    m_robotLauncher.LaunchBall();
-    m_robotLauncher.DisengageMotors();
+  else if (velocity < .005){
+    switch (m_autoCounter)
+    {
+      case -1:
+        RestartAutoTimer();
+        m_autoCounter++;
+        break;
+      case 0:
+        m_robotLauncher.LaunchBall();
+        if(m_autoTimer.Get() > .5_s){
+          m_autoCounter++;
+          RestartAutoTimer();
+        }
+        break;
+      case 1:
+        m_robotLauncher.EngageBallStaging();
+        if(m_autoTimer.Get() > 5_s){
+          m_autoCounter++;
+          RestartAutoTimer();
+        }
+        break;
+      case 2:
+        m_robotLauncher.LaunchBall();
+        break;
+    }
+    
+    //m_robotLauncher.DisengageMotors();
   }
-  fmt::print(std::to_string(distanceTraveled) + "\n");
 }
 
 void Robot::TeleopInit() {
