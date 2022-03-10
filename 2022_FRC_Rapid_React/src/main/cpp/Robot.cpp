@@ -6,6 +6,7 @@
 #include "Robot.h"
 
 #include <math.h>
+//#include <subsystems/Rake.h>
 
 #include <cameraserver/CameraServer.h>
 #include <fmt/core.h>
@@ -63,6 +64,7 @@ void Robot::AutonomousInit() {
   m_robotLauncher.EngageMotors(RobotMap::SHORT_MOTOR_POWER);
   m_autoCounter = -1;
   m_robotRake.EngageRake();
+  m_robotLauncher.EngageBallStaging();
 }
 
 void Robot::RestartAutoTimer(){
@@ -88,13 +90,15 @@ void Robot::AutonomousPeriodic() {
       case -1:
         RestartAutoTimer();
         m_autoCounter++;
+        fmt::print(std::to_string(m_autoCounter)+ "\n");
         break;
       case 0:
-        m_robotLauncher.LaunchBall();
-        if(m_autoTimer.Get() > .5_s){
+     // m_robotLauncher.LaunchBall();
+        if(m_autoTimer.Get() > .25_s){
           m_autoCounter++;
           RestartAutoTimer();
         }
+        fmt::print(std::to_string(m_autoCounter)+ "\n");
         break;
       case 1:
         m_robotLauncher.EngageBallStaging();
@@ -102,9 +106,41 @@ void Robot::AutonomousPeriodic() {
           m_autoCounter++;
           RestartAutoTimer();
         }
+                fmt::print(std::to_string(m_autoCounter)+ "\n");
+
         break;
       case 2:
+        m_robotRake.RaiseRake();
         m_robotLauncher.LaunchBall();
+ if(m_autoTimer.Get() > .25_s){
+          m_autoCounter++;
+          RestartAutoTimer();
+        }
+                fmt::print(std::to_string(m_autoCounter) + "\n");
+
+        break;
+      /*case 3:               
+        m_autoCounter++;
+        RestartAutoTimer();
+        break;*/
+      case 3:
+        m_robotLauncher.EngageBallStaging();
+        m_robotRake.RaiseRake();
+        if(m_autoTimer.Get() > 3_s){
+          m_autoCounter++;
+          RestartAutoTimer();
+        }
+                fmt::print(std::to_string(m_autoCounter)+ "\n");
+
+        break;
+      case 4:
+         m_robotLauncher.LaunchBall();
+          if(m_autoTimer.Get() > .25_s){
+          m_autoCounter++;
+          RestartAutoTimer();
+        }
+                fmt::print(std::to_string(m_autoCounter) + "\n");
+
         break;
     }
     
