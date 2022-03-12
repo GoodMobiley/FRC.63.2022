@@ -76,13 +76,13 @@ void Robot::AutonomousPeriodic() {
   } else {
     // Default Auto goes here
   }
+  double 
+    distanceTraveled = m_robotDrive.AveragePosition() / RobotMap::ENCODER_UNITS_PER_REV * RobotMap::WHEEL_CIRCUMFRENCE,
+    velocity = m_robotDrive.AverageVelocity() / RobotMap::ENCODER_UNITS_PER_REV * RobotMap::WHEEL_CIRCUMFRENCE, 
+    targetDistance = 8;
   switch (m_autoCounter)
   {
     case 0:
-      double 
-        distanceTraveled = m_robotDrive.AveragePosition() / RobotMap::ENCODER_UNITS_PER_REV * RobotMap::WHEEL_CIRCUMFRENCE,
-        velocity = m_robotDrive.AverageVelocity() / RobotMap::ENCODER_UNITS_PER_REV * RobotMap::WHEEL_CIRCUMFRENCE, 
-        targetDistance = 8;
       if (distanceTraveled < targetDistance) {
         m_robotDrive.Forward(1.0 / 2.0);
       }
