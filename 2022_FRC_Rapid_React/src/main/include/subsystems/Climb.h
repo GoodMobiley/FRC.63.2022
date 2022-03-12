@@ -22,6 +22,7 @@ class RapidReactClimb: public frc2::SubsystemBase{
         void ResetEncoders();
         void SetHookAngle(double angle);
         void JogHookRotation(double power);
+        bool HookRotationAt(double angle);
         void StartClimbCycle();
         void CancleClimbCycle();
         void Iterate(frc::XboxController & controller);
@@ -31,31 +32,10 @@ class RapidReactClimb: public frc2::SubsystemBase{
 
     private:
         const double
-            m_angleFudge = 2,
-            m_climbStageHookAngles[8] {//angle of front hooks per auto-climb stage
-                0,  //0: straight up
-                10,  //1: lean backward 5 degrees
-                10,  //2: stay at 5
-                -30, //3: lean forward 5 degrees
-                -30, //4: stay at -5
-                -30,//5: lean forward 10 degrees
-                -40,//6: rotate for handoff
-                0   //7: rotate back to 0
-            }; 
-        const int8_t 
-            m_climbStageHookExtentions[8] {//-1: retract return, -2: retract climb, 1: extend
-                -2, //0: climb
-                1,  //1:  (Slight Extend
-                -1, //2:  & Retract)
-                -1, //3: stay retracted
-                1,  //4: extend
-                1,  //5: stay extended
-                -2, //6: climb
-                0   //7: do nothing (retract till retracted)
-            };
+            m_angleFudge = 2;
         const units::second_t
-            m_extentionTime = 1.85_s,
-            m_climbStageTimestamps[8] {2_s, 1_s, 1_s, 1_s, 1_s, 1_s, 1_s, 1.3_s}; //time that the program switches climb stages (in seconds between stages) (tbd)
+            m_leftExtensionTime = 1.85_s,
+            m_rightExtensionTime = 1.85_s;
 
         double 
             m_hookRotation = 0,
@@ -63,15 +43,14 @@ class RapidReactClimb: public frc2::SubsystemBase{
             m_hookRetractPower = RobotMap::HOOK_RETRACT_MOTOR_POWER_RETURN;
 
         int8_t 
-            m_hookExtentionStatus = 0, // -1: retracting, -2: retracted, 1: extending, 2: extended
-            m_climbStageCounter = 0;
+            m_hookExtensionStatus = 0, // -1: retracting, -2: retracted, 1: extending, 2: extended
+            m_climbStageCounter = 8;
 
         bool 
-            m_hooksSet = true,
-            m_climbing = false;
+            m_hooksSet = true;
 
         frc::Timer 
-            m_extentionTimer,
+            m_extensionTimer,
             m_climbTimer;
 
         rev::CANSparkMax m_hookRotationMotor{RobotMap::FRONT_HOOK_ROTATE_ID, rev::CANSparkMax::MotorType::kBrushless};
