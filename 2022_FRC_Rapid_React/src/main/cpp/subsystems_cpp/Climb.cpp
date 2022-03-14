@@ -122,8 +122,6 @@ void RapidReactClimb::Periodic(){
 
             break;
     }
-
-    
 }
 void RapidReactClimb::SimulationPeriodic(){
 
@@ -203,4 +201,3 @@ void RapidReactClimb::Iterate(frc::XboxController & controller){
         }
     }
 }
-

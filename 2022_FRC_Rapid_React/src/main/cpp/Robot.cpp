@@ -77,8 +77,8 @@ void Robot::AutonomousPeriodic() {
     // Default Auto goes here
   }
   double 
-    distanceTraveled = m_robotDrive.AveragePosition() / RobotMap::ENCODER_UNITS_PER_REV * RobotMap::WHEEL_CIRCUMFRENCE,
-    velocity = m_robotDrive.AverageVelocity() / RobotMap::ENCODER_UNITS_PER_REV * RobotMap::WHEEL_CIRCUMFRENCE, 
+    distanceTraveled = m_robotDrive.AveragePosition() * RobotMap::WHEEL_CIRCUMFRENCE,
+    velocity = m_robotDrive.AverageVelocity() * RobotMap::WHEEL_CIRCUMFRENCE, 
     targetDistance = 8;
   switch (m_autoCounter)
   {
