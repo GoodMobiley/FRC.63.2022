@@ -31,9 +31,9 @@ public:
     static const inline double
         RAKE_MOTOR_POWER = .65,
 
-        LONG_MOTOR_POWER = .75,
-        SHORT_MOTOR_POWER = .65,
-        PUKE_MOTOR_POWER = .35,
+        LONG_MOTOR_POWER = .80,
+        SHORT_MOTOR_POWER = .70,
+        PUKE_MOTOR_POWER = .42,
 
         HOOK_ROTATION_MOTOR_POWER = .3,
         HOOK_EXTEND_MOTOR_POWER = .5,

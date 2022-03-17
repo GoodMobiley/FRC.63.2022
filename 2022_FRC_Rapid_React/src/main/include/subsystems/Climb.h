@@ -54,7 +54,7 @@ class RapidReactClimb: public frc2::SubsystemBase{
                 0   //7: do nothing (retract till retracted)
             };
         const units::second_t
-            m_extentionTime = 1.85_s,
+            m_extentionTime = 2.1_s,
             m_climbStageTimestamps[8] {2_s, 1_s, 1_s, 1_s, 1_s, 1_s, 1_s, 1.3_s}; //time that the program switches climb stages (in seconds between stages) (tbd)
 
         double 
