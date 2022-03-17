@@ -89,6 +89,7 @@ void Robot::AutonomousPeriodic() {
       case -1:
         RestartAutoTimer();
 <<<<<<< HEAD
+<<<<<<< HEAD
         m_autoCounter++;
         fmt::print(std::to_string(m_autoCounter)+ "\n");
         break;
@@ -143,6 +144,9 @@ void Robot::AutonomousPeriodic() {
 
 =======
         m_autoCounter++;
+=======
+        m_autoCounter++;
+>>>>>>> parent of ab55f8c (Improved both Auto Stage Auto Climb, as well as splitting up the extenson time of the left and right hook.)
         break;
       case 0:
         m_robotLauncher.LaunchBall();
@@ -160,6 +164,9 @@ void Robot::AutonomousPeriodic() {
         break;
       case 2:
         m_robotLauncher.LaunchBall();
+<<<<<<< HEAD
+>>>>>>> parent of ab55f8c (Improved both Auto Stage Auto Climb, as well as splitting up the extenson time of the left and right hook.)
+=======
 >>>>>>> parent of ab55f8c (Improved both Auto Stage Auto Climb, as well as splitting up the extenson time of the left and right hook.)
         break;
     }

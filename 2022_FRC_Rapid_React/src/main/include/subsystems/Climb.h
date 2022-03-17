@@ -55,7 +55,11 @@ class RapidReactClimb: public frc2::SubsystemBase{
             };
         const units::second_t
 <<<<<<< HEAD
+<<<<<<< HEAD
             m_extentionTime = 2.1_s,
+=======
+            m_extentionTime = 1.85_s,
+>>>>>>> parent of ab55f8c (Improved both Auto Stage Auto Climb, as well as splitting up the extenson time of the left and right hook.)
 =======
             m_extentionTime = 1.85_s,
 >>>>>>> parent of ab55f8c (Improved both Auto Stage Auto Climb, as well as splitting up the extenson time of the left and right hook.)

@@ -76,6 +76,7 @@ void RapidReactClimb::Periodic(){
             m_hookRotationMotor.StopMotor();
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
     }
 
     switch(m_climbStageCounter){
@@ -136,6 +137,9 @@ void RapidReactClimb::Periodic(){
 
             break;
     }
+=======
+    }       
+>>>>>>> parent of ab55f8c (Improved both Auto Stage Auto Climb, as well as splitting up the extenson time of the left and right hook.)
 =======
     }       
 >>>>>>> parent of ab55f8c (Improved both Auto Stage Auto Climb, as well as splitting up the extenson time of the left and right hook.)
