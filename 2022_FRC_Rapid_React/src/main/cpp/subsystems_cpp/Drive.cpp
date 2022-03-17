@@ -29,7 +29,7 @@ RapidReactDrive::RapidReactDrive() //Constructor Method (A function with the sam
         talon.ref.ConfigPeakOutputForward(1.0, RobotMap::CAN_TIME_OUT_MS);
         talon.ref.ConfigPeakOutputReverse(-1.0, RobotMap::CAN_TIME_OUT_MS);
         talon.ref.EnableVoltageCompensation(false); //<-- Disabled voltage compensation 3/14/2022 as an attempt to fix inconsistant motor behavior
-        talon.ref.ConfigVoltageCompSaturation(11.5, RobotMap::CAN_TIME_OUT_MS);
+        //talon.ref.ConfigVoltageCompSaturation(11.5, RobotMap::CAN_TIME_OUT_MS);
 
         talon.ref.Config_kP(0, 0.375, RobotMap::CAN_TIME_OUT_MS);
         talon.ref.Config_kI(0, 0.0, RobotMap::CAN_TIME_OUT_MS);
