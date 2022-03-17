@@ -39,7 +39,7 @@ class Robot : public frc::TimedRobot {
 
  private:
   frc::Timer m_autoTimer;
-  int m_autoCounter = 0;
+  int m_autoCounter = -1;
 
   frc::SendableChooser<std::string> m_chooser;
   const std::string kAutoNameDefault = "Default";

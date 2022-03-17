@@ -64,7 +64,6 @@ void Robot::AutonomousInit() {
   m_robotLauncher.EngageMotors(RobotMap::SHORT_MOTOR_POWER);
   m_autoCounter = -1;
   m_robotRake.EngageRake();
-  m_robotLauncher.EngageBallStaging();
 }
 
 void Robot::RestartAutoTimer(){
@@ -89,6 +88,7 @@ void Robot::AutonomousPeriodic() {
     {
       case -1:
         RestartAutoTimer();
+<<<<<<< HEAD
         m_autoCounter++;
         fmt::print(std::to_string(m_autoCounter)+ "\n");
         break;
@@ -141,6 +141,26 @@ void Robot::AutonomousPeriodic() {
         }
                 fmt::print(std::to_string(m_autoCounter) + "\n");
 
+=======
+        m_autoCounter++;
+        break;
+      case 0:
+        m_robotLauncher.LaunchBall();
+        if(m_autoTimer.Get() > .5_s){
+          m_autoCounter++;
+          RestartAutoTimer();
+        }
+        break;
+      case 1:
+        m_robotLauncher.EngageBallStaging();
+        if(m_autoTimer.Get() > 5_s){
+          m_autoCounter++;
+          RestartAutoTimer();
+        }
+        break;
+      case 2:
+        m_robotLauncher.LaunchBall();
+>>>>>>> parent of ab55f8c (Improved both Auto Stage Auto Climb, as well as splitting up the extenson time of the left and right hook.)
         break;
     }
     

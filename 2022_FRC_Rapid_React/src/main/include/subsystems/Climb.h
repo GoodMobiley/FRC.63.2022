@@ -54,7 +54,11 @@ class RapidReactClimb: public frc2::SubsystemBase{
                 0   //7: do nothing (retract till retracted)
             };
         const units::second_t
+<<<<<<< HEAD
             m_extentionTime = 2.1_s,
+=======
+            m_extentionTime = 1.85_s,
+>>>>>>> parent of ab55f8c (Improved both Auto Stage Auto Climb, as well as splitting up the extenson time of the left and right hook.)
             m_climbStageTimestamps[8] {2_s, 1_s, 1_s, 1_s, 1_s, 1_s, 1_s, 1.3_s}; //time that the program switches climb stages (in seconds between stages) (tbd)
 
         double 
