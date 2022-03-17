@@ -1,6 +1,5 @@
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 #ifndef ROBOTMAP_H
 #define ROBOTMAP_H
@@ -35,7 +34,7 @@ public:
         SHORT_MOTOR_POWER = .70,
         PUKE_MOTOR_POWER = .42,
 
-        HOOK_ROTATION_MOTOR_POWER = .3,
+        HOOK_ROTATION_MOTOR_POWER = .25,
         HOOK_EXTEND_MOTOR_POWER = .5,
         HOOK_RETRACT_MOTOR_POWER_CLIMB = 1,
         HOOK_RETRACT_MOTOR_POWER_RETURN = .5;
