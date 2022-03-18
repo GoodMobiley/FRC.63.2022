@@ -41,7 +41,7 @@ RapidReactDrive::RapidReactDrive() //Constructor Method (A function with the sam
 
         //sets sensor to mag encoder
         talon.ref.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative, 0, RobotMap::CAN_TIME_OUT_MS);
-        talon.ref.ConfigSelectedFeedbackCoefficient(RobotMap::ENCODER_UNITS_PER_REV, 0, RobotMap::CAN_TIME_OUT_MS);
+        talon.ref.ConfigSelectedFeedbackCoefficient(1, 0, RobotMap::CAN_TIME_OUT_MS);
     }
 }
 

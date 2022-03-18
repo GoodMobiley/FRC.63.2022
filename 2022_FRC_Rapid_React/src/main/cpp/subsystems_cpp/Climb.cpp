@@ -27,7 +27,7 @@ void RapidReactClimb::Periodic(){
         if (m_extensionTimer.Get() > m_rightExtensionTime){
             m_rightHookMotor.StopMotor();
         }
-        if ((m_leftExtensionTime > m_rightExtensionTime && m_extensionTimer.Get() > m_leftExtensionTime) ||
+        if ((m_leftExtensionTime >= m_rightExtensionTime && m_extensionTimer.Get() > m_leftExtensionTime) ||
             (m_rightExtensionTime > m_leftExtensionTime && m_extensionTimer.Get() > m_rightExtensionTime)){
             DisengageMotors();
             m_hookExtensionStatus = 2;
@@ -98,7 +98,6 @@ void RapidReactClimb::Periodic(){
         case 4:
             if(m_hookExtensionStatus == 2){//go to next stage if hooks extended
                 m_climbStageCounter++;
-                fmt::print("Got it\n");
                 break;
             }
             ExtendHooks();
@@ -107,14 +106,13 @@ void RapidReactClimb::Periodic(){
             if(HookRotationAt(-60)){//go to next stage if hooks at -60
                 m_climbStageCounter++;
                 m_climbTimer.Reset();   m_climbTimer.Start();
-                fmt::print("@-60");
                 break;
             }
             SetHookAngle(-60);
             break;
         case 6:
             if(m_climbTimer.Get() > 1.25_s){//go to next stage after 1.25 sec
-                m_climbStageCounter;
+                m_climbStageCounter++;
                 break;
             }
             RetractHooks(RobotMap::HOOK_RETRACT_MOTOR_POWER_CLIMB);
