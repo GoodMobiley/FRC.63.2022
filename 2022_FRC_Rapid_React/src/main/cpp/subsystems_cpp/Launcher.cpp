@@ -19,16 +19,19 @@ void RapidReactLauncher::EngageMotors(double motorPower){
     m_leftMotor.Set(motorPower * 1);
     m_rightMotor.Set(motorPower * 1);
     m_motorsEngaged = true;
+    fmt::print("[Launcher] Motors Engaged; Motor Power: " + std::to_string(motorPower) + "\n");
 }
 void RapidReactLauncher::DisengageMotors(){
     m_leftMotor.StopMotor();
     m_rightMotor.StopMotor();
     m_motorsEngaged = false;
+    fmt::print("[Launcher] Motors Disengaged\n");
 }
 
 void RapidReactLauncher::EngageBallStaging(){
     m_stagingSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
     m_shovingSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
+    fmt::print("[Launcher] Staged For Next Ball\n");
 }
 void RapidReactLauncher::DisengageBallStaging(){
     m_stagingSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
@@ -37,9 +40,9 @@ void RapidReactLauncher::DisengageBallStaging(){
 void RapidReactLauncher::LaunchBall(){
     if (m_motorsEngaged){
         m_shovingSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
-    }
-    else{
-        fmt::print("Motors Not Engaged\n");
+        fmt::print("[Launcher] Launched Ball\n");
+    } else {
+        fmt::print("[Launcher] Can't Launch While Motors Disengaged\n");
     }
 }
 
@@ -56,8 +59,13 @@ void RapidReactLauncher::Iterate(frc::XboxController &controller){
         DisengageBallStaging();
     }*/
     if (controller.GetRightTriggerAxis() > .5){
-        LaunchBall();
-    } else {
+        if (!m_rightTriggerPressed){
+            LaunchBall();
+            m_rightTriggerPressed = true;
+        }
+    } 
+    else if(m_rightTriggerPressed) {
         EngageBallStaging();
+        m_rightTriggerPressed = false;
     }
 }

@@ -28,8 +28,8 @@ RapidReactDrive::RapidReactDrive() //Constructor Method (A function with the sam
         talon.ref.ConfigNominalOutputReverse(0.0, RobotMap::CAN_TIME_OUT_MS);
         talon.ref.ConfigPeakOutputForward(1.0, RobotMap::CAN_TIME_OUT_MS);
         talon.ref.ConfigPeakOutputReverse(-1.0, RobotMap::CAN_TIME_OUT_MS);
-        //talon.ref.ConfigVoltageCompSaturation(11.0, RobotMap::CAN_TIME_OUT_MS);
-        talon.ref.EnableVoltageCompensation(false);
+        talon.ref.EnableVoltageCompensation(false); //<-- Disabled voltage compensation 3/14/2022 as an attempt to fix inconsistant motor behavior
+        //talon.ref.ConfigVoltageCompSaturation(11.5, RobotMap::CAN_TIME_OUT_MS);
 
         talon.ref.Config_kP(0, 0.375, RobotMap::CAN_TIME_OUT_MS);
         talon.ref.Config_kI(0, 0.0, RobotMap::CAN_TIME_OUT_MS);
@@ -41,7 +41,7 @@ RapidReactDrive::RapidReactDrive() //Constructor Method (A function with the sam
 
         //sets sensor to mag encoder
         talon.ref.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative, 0, RobotMap::CAN_TIME_OUT_MS);
-        talon.ref.ConfigSelectedFeedbackCoefficient(1.0, 0, RobotMap::CAN_TIME_OUT_MS);
+        talon.ref.ConfigSelectedFeedbackCoefficient(1, 0, RobotMap::CAN_TIME_OUT_MS);
     }
 }
 

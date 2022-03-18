@@ -6,7 +6,6 @@
 #include "Robot.h"
 
 #include <math.h>
-//#include <subsystems/Rake.h>
 
 #include <cameraserver/CameraServer.h>
 #include <fmt/core.h>
@@ -62,8 +61,9 @@ void Robot::AutonomousInit() {
   }
   m_robotDrive.ResetEncoders();
   m_robotLauncher.EngageMotors(RobotMap::SHORT_MOTOR_POWER);
-  m_autoCounter = -1;
+  m_autoCounter = 0;
   m_robotRake.EngageRake();
+  m_robotLauncher.EngageBallStaging();
 }
 
 void Robot::RestartAutoTimer(){
@@ -80,102 +80,46 @@ void Robot::AutonomousPeriodic() {
     distanceTraveled = m_robotDrive.AveragePosition() / RobotMap::ENCODER_UNITS_PER_REV * RobotMap::WHEEL_CIRCUMFRENCE,
     velocity = m_robotDrive.AverageVelocity() / RobotMap::ENCODER_UNITS_PER_REV * RobotMap::WHEEL_CIRCUMFRENCE, 
     targetDistance = 8;
-  if (distanceTraveled < targetDistance) {
-      m_robotDrive.Forward(1.0 / 2.0);
-  }
-  else if (velocity < .005){
-    switch (m_autoCounter)
-    {
-      case -1:
-        RestartAutoTimer();
-<<<<<<< HEAD
-<<<<<<< HEAD
-        m_autoCounter++;
-        fmt::print(std::to_string(m_autoCounter)+ "\n");
-        break;
-      case 0:
-     // m_robotLauncher.LaunchBall();
-        if(m_autoTimer.Get() > .25_s){
-          m_autoCounter++;
-          RestartAutoTimer();
-        }
-        fmt::print(std::to_string(m_autoCounter)+ "\n");
-        break;
-      case 1:
-        m_robotLauncher.EngageBallStaging();
-        if(m_autoTimer.Get() > 5_s){
-          m_autoCounter++;
-          RestartAutoTimer();
-        }
-                fmt::print(std::to_string(m_autoCounter)+ "\n");
-
-        break;
-      case 2:
-        m_robotRake.RaiseRake();
-        m_robotLauncher.LaunchBall();
- if(m_autoTimer.Get() > .25_s){
-          m_autoCounter++;
-          RestartAutoTimer();
-        }
-                fmt::print(std::to_string(m_autoCounter) + "\n");
-
-        break;
-      /*case 3:               
+  switch (m_autoCounter)
+  {
+    case 0:
+      if (distanceTraveled < targetDistance) {
+        m_robotDrive.Forward(1.0 / 2.0);
+        fmt::print("[Robot] Distance Travled(ft): " + std::to_string(distanceTraveled) + "\n");
+      }
+      else if (velocity < .005){
         m_autoCounter++;
         RestartAutoTimer();
-        break;*/
-      case 3:
-        m_robotLauncher.EngageBallStaging();
-        m_robotRake.RaiseRake();
-        if(m_autoTimer.Get() > 3_s){
-          m_autoCounter++;
-          RestartAutoTimer();
-        }
-                fmt::print(std::to_string(m_autoCounter)+ "\n");
-
-        break;
-      case 4:
-         m_robotLauncher.LaunchBall();
-          if(m_autoTimer.Get() > .25_s){
-          m_autoCounter++;
-          RestartAutoTimer();
-        }
-                fmt::print(std::to_string(m_autoCounter) + "\n");
-
-=======
+        fmt::print("[Robot] Launched Ball\n");
+      }
+      break;
+    case 1:
+      if(m_autoTimer.Get() > .3_s){
         m_autoCounter++;
-=======
+        RestartAutoTimer();
+        fmt::print("[Robot] Staged For Next Ball\n");
+        break;
+      }
+      m_robotLauncher.LaunchBall();
+      m_robotRake.DisengageRake();
+      break;
+    case 2:
+      if(m_autoTimer.Get() > 3_s){
         m_autoCounter++;
->>>>>>> parent of ab55f8c (Improved both Auto Stage Auto Climb, as well as splitting up the extenson time of the left and right hook.)
+        RestartAutoTimer();
+        fmt::print("[Robot] Launched Ball\n");
         break;
-      case 0:
-        m_robotLauncher.LaunchBall();
-        if(m_autoTimer.Get() > .5_s){
-          m_autoCounter++;
-          RestartAutoTimer();
-        }
-        break;
-      case 1:
-        m_robotLauncher.EngageBallStaging();
-        if(m_autoTimer.Get() > 5_s){
-          m_autoCounter++;
-          RestartAutoTimer();
-        }
-        break;
-      case 2:
-        m_robotLauncher.LaunchBall();
-<<<<<<< HEAD
->>>>>>> parent of ab55f8c (Improved both Auto Stage Auto Climb, as well as splitting up the extenson time of the left and right hook.)
-=======
->>>>>>> parent of ab55f8c (Improved both Auto Stage Auto Climb, as well as splitting up the extenson time of the left and right hook.)
-        break;
-    }
-    
-    //m_robotLauncher.DisengageMotors();
+      }
+      m_robotLauncher.EngageBallStaging();
+      break;
+    case 3:
+      m_robotLauncher.LaunchBall();
+      break;
   }
 }
 
 void Robot::TeleopInit() {
+  m_robotClimb.CancleClimbCycle();
   m_robotClimb.RetractHooks(RobotMap::HOOK_RETRACT_MOTOR_POWER_RETURN);
 }
 
