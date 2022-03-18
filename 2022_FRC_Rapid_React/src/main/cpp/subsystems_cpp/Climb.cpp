@@ -34,6 +34,9 @@ void RapidReactClimb::Periodic(){
         }
     }
     else if (m_hookExtensionStatus == -1){//|| m_hookExtentionStatus == -2){
+        if (m_rightLimitSwitch.Get() && m_leftLimitSwitch.Get()){
+            m_hookExtensionStatus = -2;
+        }
         if (!m_leftLimitSwitch.Get()) {
             m_leftHookMotor.Set(-m_hookRetractPower);
         } else {
@@ -44,10 +47,6 @@ void RapidReactClimb::Periodic(){
             m_rightHookMotor.Set(-m_hookRetractPower);
         } else {
             m_rightHookMotor.StopMotor();
-        }
-
-        if (m_rightLimitSwitch.Get() && m_leftLimitSwitch.Get()){
-            m_hookExtensionStatus = -2;
         }
     }
 
@@ -66,57 +65,67 @@ void RapidReactClimb::Periodic(){
 
     switch(m_climbStageCounter){
         case 0:
-            SetHookAngle(0);
-            RetractHooks(RobotMap::HOOK_RETRACT_MOTOR_POWER_CLIMB);
             if (m_hookExtensionStatus == -2){//go to next stage if hooks retracted
                 m_climbStageCounter++;
                 m_climbTimer.Reset();   m_climbTimer.Start();
+                break;
             }
+            SetHookAngle(0);
+            RetractHooks(RobotMap::HOOK_RETRACT_MOTOR_POWER_CLIMB);
             break;
         case 1:
-            ExtendHooks();
-            if(m_climbTimer.Get() > .5_s){//go to next stage after .5 sec
+            if(m_climbTimer.Get() > .25_s){//go to next stage after .5 sec
                 m_climbStageCounter++;
+                break;
             }
+            ExtendHooks();
             break;
         case 2:
-            RetractHooks(RobotMap::HOOK_RETRACT_MOTOR_POWER_RETURN);
             if(m_hookExtensionStatus == -2){//go to next stage if hooks retracted
                 m_climbStageCounter++;
+                break;
             }
+            RetractHooks(RobotMap::HOOK_RETRACT_MOTOR_POWER_RETURN);
             break;
         case 3:
-            SetHookAngle(-40);
-            RetractHooks(RobotMap::HOOK_RETRACT_MOTOR_POWER_RETURN);
             if(HookRotationAt(-40)){//go to next stage if hooks at -40 deg
                 m_climbStageCounter++;
+                break;
             }
+            SetHookAngle(-40);
+            RetractHooks(RobotMap::HOOK_RETRACT_MOTOR_POWER_RETURN);
             break;
         case 4:
-            ExtendHooks();
             if(m_hookExtensionStatus == 2){//go to next stage if hooks extended
                 m_climbStageCounter++;
+                fmt::print("Got it\n");
+                break;
             }
+            ExtendHooks();
             break;
         case 5:
-            SetHookAngle(-60);
             if(HookRotationAt(-60)){//go to next stage if hooks at -60
                 m_climbStageCounter++;
                 m_climbTimer.Reset();   m_climbTimer.Start();
+                fmt::print("@-60");
+                break;
             }
+            SetHookAngle(-60);
             break;
         case 6:
-            RetractHooks(RobotMap::HOOK_RETRACT_MOTOR_POWER_CLIMB);
             if(m_climbTimer.Get() > 1.25_s){//go to next stage after 1.25 sec
                 m_climbStageCounter;
+                break;
             }
+            RetractHooks(RobotMap::HOOK_RETRACT_MOTOR_POWER_CLIMB);
             break;
         case 7:
-            RetractHooks(RobotMap::HOOK_RETRACT_MOTOR_POWER_CLIMB);
-            SetHookAngle(0);
             if(m_hookExtensionStatus == -2){//Ends the climb cycle when hooks are retracted
                 m_climbStageCounter++;
+                break;
             }
+            RetractHooks(RobotMap::HOOK_RETRACT_MOTOR_POWER_CLIMB);
+            SetHookAngle(0);
             break;
         default:
 
@@ -168,6 +177,7 @@ void RapidReactClimb::StartClimbCycle(){
 void RapidReactClimb::CancleClimbCycle(){
     m_climbStageCounter = 8;
     m_hookExtensionStatus = 2;
+    SetHookAngle(0);
 }
 
 void RapidReactClimb::Iterate(frc::XboxController & controller){
