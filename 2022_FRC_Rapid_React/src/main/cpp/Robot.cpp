@@ -63,7 +63,7 @@ void Robot::AutonomousInit() {
   m_robotLauncher.EngageMotors(RobotMap::SHORT_MOTOR_POWER);
   m_autoCounter = 0;
   m_robotRake.EngageRake();
-  m_robotLauncher.EngageBallStaging();
+  m_robotLauncher.StageBall();
 }
 
 void Robot::RestartAutoTimer(){
@@ -110,7 +110,7 @@ void Robot::AutonomousPeriodic() {
         fmt::print("[Robot] Launched Ball\n");
         break;
       }
-      m_robotLauncher.EngageBallStaging();
+      m_robotLauncher.StageBall();
       break;
     case 3:
       m_robotLauncher.LaunchBall();
@@ -144,15 +144,6 @@ void Robot::TestInit() {
 
 void Robot::TestPeriodic() {
 
-}
-
-void Robot::EngageBallStaging() {
-  m_robotRake.EngageBallStaging();
-  m_robotLauncher.EngageBallStaging();
-}
-void Robot::DisengageBallStaging() {
-  m_robotRake.DisengageBallStaging();
-  m_robotLauncher.DisengageBallStaging();
 }
 
 #ifndef RUNNING_FRC_TESTS

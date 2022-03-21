@@ -1,9 +1,11 @@
 #include "subsystems/Rake.h"
 
+#include <fmt/core.h>
+
 RapidReactRake::RapidReactRake(){
     m_rakeMotor.SetInverted(true);
     m_rakeMotor.SetSafetyEnabled(false);
-    RaiseRake();
+    DisengageRake();
 }
 
 void RapidReactRake::Periodic(){
@@ -17,12 +19,6 @@ void RapidReactRake::SimulationPeriodic(){
 
 }
 
-void RapidReactRake::LowerRake(){ 
-    m_rakeSolenoid.Set(frc::DoubleSolenoid::Value::kForward); 
-}
-void RapidReactRake::RaiseRake(){ 
-    m_rakeSolenoid.Set(frc::DoubleSolenoid::Value::kReverse); 
-}
 void RapidReactRake::EngageMotors(){ 
     m_rakeMotor.Set(RobotMap::RAKE_MOTOR_POWER); 
 }
@@ -31,19 +27,18 @@ void RapidReactRake::DisengageMotors(){
 }
 
 void RapidReactRake::EngageRake(){
-    LowerRake();
+    if (!m_rake){
+        fmt::print("[Rake] Rake Engaged\n");
+    }
     m_rake = true;
+    m_rakeSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
 }
 void RapidReactRake::DisengageRake(){
-    RaiseRake();
+    if (m_rake){
+        fmt::print("[Rake] Rake Disengaged\n");
+    }
     m_rake = false;
-}
-
-void RapidReactRake::EngageBallStaging(){
-    m_ballStaging = true;
-}
-void RapidReactRake::DisengageBallStaging(){
-    m_ballStaging = false;
+    m_rakeSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
 }
 
 void RapidReactRake::Iterate(frc::XboxController &controller){
@@ -55,8 +50,14 @@ void RapidReactRake::Iterate(frc::XboxController &controller){
     }
 
     if(controller.GetLeftTriggerAxis() > .5) { 
-        EngageBallStaging(); 
+        if (!m_ballStaging){
+            fmt::print("[Rake] Engaged Motors For Ball Staging\n");
+        }
+        m_ballStaging = true;
     } else { 
-        DisengageBallStaging(); 
+        if (m_ballStaging){
+            fmt::print("[Rake] Disengaged Rake Motors\n");
+        }
+        m_ballStaging = false;
     }
 }

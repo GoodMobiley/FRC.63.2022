@@ -14,9 +14,8 @@ class RapidReactLauncher: public frc2::SubsystemBase{
         RapidReactLauncher();
         void EngageMotors(double motorPower);
         void DisengageMotors();
-        void EngageBallStaging();
-        void DisengageBallStaging();
         void LaunchBall();
+        void StageBall();
         void Iterate(frc::XboxController &controller);
 
         void Periodic() override;
@@ -24,7 +23,8 @@ class RapidReactLauncher: public frc2::SubsystemBase{
     private:
         bool 
             m_motorsEngaged = false,
-            m_rightTriggerPressed = false;
+            m_ballLaunched = false,
+            m_motorWarned = false;
         frc::Spark
             m_leftMotor{RobotMap::LEFT_LAUNCHER_MOTOR},
             m_rightMotor{RobotMap::RIGHT_LAUNCHER_MOTOR};

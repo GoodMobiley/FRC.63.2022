@@ -16,33 +16,44 @@ void RapidReactLauncher::SimulationPeriodic(){
     
 }
 void RapidReactLauncher::EngageMotors(double motorPower){
+    if (m_leftMotor.Get() != motorPower || !m_motorsEngaged){
+        fmt::print("[Launcher] Motors Engaged; Motor Power: " + std::to_string(motorPower) + "\n");
+    }
+    m_motorsEngaged = true;
+    m_motorWarned = false;
     m_leftMotor.Set(motorPower * 1);
     m_rightMotor.Set(motorPower * 1);
-    m_motorsEngaged = true;
-    fmt::print("[Launcher] Motors Engaged; Motor Power: " + std::to_string(motorPower) + "\n");
 }
 void RapidReactLauncher::DisengageMotors(){
+    if (m_motorsEngaged){
+        fmt::print("[Launcher] Motors Disengaged\n");
+    }
+    m_motorsEngaged = false;
     m_leftMotor.StopMotor();
     m_rightMotor.StopMotor();
-    m_motorsEngaged = false;
-    fmt::print("[Launcher] Motors Disengaged\n");
 }
 
-void RapidReactLauncher::EngageBallStaging(){
-    m_stagingSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
+void RapidReactLauncher::StageBall(){
+    if (m_ballLaunched){
+        fmt::print("[Launcher] Staged For Next Ball\n");
+    }
+    m_ballLaunched = false;
+    m_motorWarned = false;
     m_shovingSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
-    fmt::print("[Launcher] Staged For Next Ball\n");
-}
-void RapidReactLauncher::DisengageBallStaging(){
-    m_stagingSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
 }
 
 void RapidReactLauncher::LaunchBall(){
-    if (m_motorsEngaged){
-        m_shovingSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
+    if (!m_ballLaunched && m_motorsEngaged){
         fmt::print("[Launcher] Launched Ball\n");
-    } else {
+    }
+    else if (!m_motorWarned){
+        m_motorWarned = true;
         fmt::print("[Launcher] Can't Launch While Motors Disengaged\n");
+    }
+
+    if (m_motorsEngaged){
+        m_ballLaunched = true;
+        m_shovingSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
     }
 }
 
@@ -52,20 +63,9 @@ void RapidReactLauncher::Iterate(frc::XboxController &controller){
     else if (controller.GetAButtonPressed()){EngageMotors(RobotMap::PUKE_MOTOR_POWER);}
     else if (controller.GetBButtonPressed()){DisengageMotors();}
 
-    /*if (controller.GetLeftTriggerAxis() > .5 || controller.GetLeftBumper()){
-        EngageBallStaging();
-    }
-    else{
-        DisengageBallStaging();
-    }*/
     if (controller.GetRightTriggerAxis() > .5){
-        if (!m_rightTriggerPressed){
-            LaunchBall();
-            m_rightTriggerPressed = true;
-        }
-    } 
-    else if(m_rightTriggerPressed) {
-        EngageBallStaging();
-        m_rightTriggerPressed = false;
+        LaunchBall();
+    } else {
+        StageBall();
     }
 }
