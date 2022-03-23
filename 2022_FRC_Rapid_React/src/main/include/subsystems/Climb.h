@@ -20,6 +20,7 @@ class RapidReactClimb: public frc2::SubsystemBase{
         void RetractHooks(double power);
         void DisengageMotors();
         void ResetEncoders();
+        void SetHookTargetOffset();
         void SetHookAngle(double angle);
         void JogHookRotation(double power);
         bool HookRotationAt(double angle);
@@ -40,6 +41,7 @@ class RapidReactClimb: public frc2::SubsystemBase{
         double 
             m_hookRotation = 0,
             m_targetHookRotation = 0,
+            m_hookTargetOffset = 0,
             m_hookRetractPower = RobotMap::HOOK_RETRACT_MOTOR_POWER_RETURN;
 
         int8_t 

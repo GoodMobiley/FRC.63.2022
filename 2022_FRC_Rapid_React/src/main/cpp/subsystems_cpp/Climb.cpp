@@ -54,10 +54,10 @@ void RapidReactClimb::Periodic(){
 
     m_hookRotation = m_hookRotationEncoder.GetPosition() / RobotMap::HOOK_ENCODER_UNITS_PER_REV * 360;
     if(m_hooksSet){
-        if (m_hookRotation < m_targetHookRotation - m_angleFudge){
+        if (m_hookRotation < m_targetHookRotation + m_hookTargetOffset - m_angleFudge){
             m_hookRotationMotor.Set(RobotMap::HOOK_ROTATION_MOTOR_POWER);
         }
-        else if (m_hookRotation > m_targetHookRotation + m_angleFudge){
+        else if (m_hookRotation > m_targetHookRotation + m_hookTargetOffset + m_angleFudge){
             m_hookRotationMotor.Set(-RobotMap::HOOK_ROTATION_MOTOR_POWER);
         }
         else{
@@ -167,6 +167,14 @@ void RapidReactClimb::ResetEncoders(){
     m_hooksSet = true;
     m_targetHookRotation = 0;
 }
+void RapidReactClimb::SetHookTargetOffset(){
+    if (!m_hooksSet){
+        fmt::print("[Climb] Set Hook Target Angle Offset To" + std::to_string(m_hookRotation) + "deg.\n");
+    }
+    m_hookTargetOffset = m_hookRotation;
+    m_hooksSet = true;
+    m_targetHookRotation = 0;
+}
 void RapidReactClimb::SetHookAngle(double angle){
     if(m_targetHookRotation != angle){
         fmt::print("[Climb] Set Hook Angle To: " + std::to_string(angle) + " deg.\n");
@@ -206,11 +214,11 @@ void RapidReactClimb::Iterate(frc::XboxController & controller){
             JogHookRotation(-RobotMap::HOOK_ROTATION_MOTOR_POWER);
         }
         else if (!m_hooksSet){
-            ResetEncoders();
+            SetHookTargetOffset();
         }
 
         if (controller.GetRightTriggerAxis() > .5){
-        RetractHooks(RobotMap::HOOK_RETRACT_MOTOR_POWER_CLIMB);
+            RetractHooks(RobotMap::HOOK_RETRACT_MOTOR_POWER_CLIMB);
         }
         else if (controller.GetBButton()){
             RetractHooks(RobotMap::HOOK_RETRACT_MOTOR_POWER_RETURN);
