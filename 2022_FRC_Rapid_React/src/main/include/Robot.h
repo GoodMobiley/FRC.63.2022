@@ -15,6 +15,7 @@
 
 #include <frc/TimedRobot.h>
 #include <frc/XboxController.h>
+#include <frc/DigitalInput.h>
 #include <frc/smartdashboard/SendableChooser.h>
 #include <frc/Timer.h>
 
@@ -45,6 +46,8 @@ class Robot : public frc::TimedRobot {
   const std::string kAutoNameDefault = "Default";
   const std::string kAutoNameCustom = "My Auto";
   std::string m_autoSelected;
+
+  frc::DigitalInput m_autoSwitch{1};
 
   frc::XboxController 
     m_pilot{RobotMap::PILOT_CONTROLLER},

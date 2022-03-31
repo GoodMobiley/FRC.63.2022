@@ -31,7 +31,6 @@ void RapidReactLauncher::DisengageMotors(){
 void RapidReactLauncher::EngageBallStaging(){
     m_stagingSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
     m_shovingSolenoid.Set(frc::DoubleSolenoid::Value::kForward);
-    fmt::print("[Launcher] Staged For Next Ball\n");
 }
 void RapidReactLauncher::DisengageBallStaging(){
     m_stagingSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
@@ -40,7 +39,6 @@ void RapidReactLauncher::DisengageBallStaging(){
 void RapidReactLauncher::LaunchBall(){
     if (m_motorsEngaged){
         m_shovingSolenoid.Set(frc::DoubleSolenoid::Value::kReverse);
-        fmt::print("[Launcher] Launched Ball\n");
     } else {
         fmt::print("[Launcher] Can't Launch While Motors Disengaged\n");
     }
@@ -59,13 +57,9 @@ void RapidReactLauncher::Iterate(frc::XboxController &controller){
         DisengageBallStaging();
     }*/
     if (controller.GetRightTriggerAxis() > .5){
-        if (!m_rightTriggerPressed){
-            LaunchBall();
-            m_rightTriggerPressed = true;
-        }
+        LaunchBall();
     } 
-    else if(m_rightTriggerPressed) {
+    else {
         EngageBallStaging();
-        m_rightTriggerPressed = false;
     }
 }

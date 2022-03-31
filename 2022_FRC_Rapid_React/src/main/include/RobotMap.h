@@ -32,7 +32,7 @@ public:
 
         LONG_MOTOR_POWER = .85,
         SHORT_MOTOR_POWER = .75,
-        PUKE_MOTOR_POWER = .5,
+        PUKE_MOTOR_POWER = .42,
 
         HOOK_ROTATION_MOTOR_POWER = .25,
         HOOK_EXTEND_MOTOR_POWER = .5,

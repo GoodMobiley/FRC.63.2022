@@ -60,7 +60,13 @@ void Robot::AutonomousInit() {
     // Default Auto goes here
   }
   m_robotDrive.ResetEncoders();
-  m_robotLauncher.EngageMotors(RobotMap::SHORT_MOTOR_POWER);
+
+  if (m_autoSwitch.Get()){
+    m_robotLauncher.EngageMotors(RobotMap::PUKE_MOTOR_POWER);
+  } else {
+    m_robotLauncher.EngageMotors(RobotMap::SHORT_MOTOR_POWER);
+  }
+  
   m_autoCounter = 0;
   m_robotRake.EngageRake();
   m_robotLauncher.EngageBallStaging();
@@ -78,44 +84,109 @@ void Robot::AutonomousPeriodic() {
   }
   double 
     distanceTraveled = m_robotDrive.AveragePosition() / RobotMap::ENCODER_UNITS_PER_REV * RobotMap::WHEEL_CIRCUMFRENCE,
-    velocity = m_robotDrive.AverageVelocity() / RobotMap::ENCODER_UNITS_PER_REV * RobotMap::WHEEL_CIRCUMFRENCE, 
-    targetDistance = 8;
-  switch (m_autoCounter)
-  {
-    case 0:
-      if (distanceTraveled < targetDistance) {
-        m_robotDrive.Forward(1.0 / 2.0);
-        fmt::print("[Robot] Distance Travled(ft): " + std::to_string(distanceTraveled) + "\n");
-      }
-      else if (velocity < .005){
-        m_autoCounter++;
-        RestartAutoTimer();
-        fmt::print("[Robot] Launched Ball\n");
-      }
-      break;
-    case 1:
-      if(m_autoTimer.Get() > .3_s){
-        m_autoCounter++;
-        RestartAutoTimer();
-        fmt::print("[Robot] Staged For Next Ball\n");
+    velocity = m_robotDrive.AverageVelocity() / RobotMap::ENCODER_UNITS_PER_REV * RobotMap::WHEEL_CIRCUMFRENCE;
+
+    //auto 2
+  if (m_autoSwitch.Get()){
+    switch (m_autoCounter)
+    {
+      case 0:
+        if (distanceTraveled < 5) {
+          m_robotDrive.Forward(1.0 / 2.0);
+          fmt::print("[Robot] Distance Travled(ft): " + std::to_string(distanceTraveled) + "\n");
+        } else {
+          m_autoCounter++;
+          RestartAutoTimer();
+        }
         break;
-      }
-      m_robotLauncher.LaunchBall();
-      m_robotRake.DisengageRake();
-      break;
-    case 2:
-      if(m_autoTimer.Get() > 3_s){
-        m_autoCounter++;
-        RestartAutoTimer();
-        fmt::print("[Robot] Launched Ball\n");
+      case 1:
+        if (distanceTraveled > 5){
+          m_robotDrive.Reverse(1.0 / 2.0);
+          fmt::print("[Robot] Distance Travled(ft): " + std::to_string(distanceTraveled) + "\n");
+        } 
+        else if (velocity > -.005) {
+          m_autoCounter++;
+          RestartAutoTimer();
+        }
         break;
-      }
-      m_robotLauncher.EngageBallStaging();
-      break;
-    case 3:
-      m_robotLauncher.LaunchBall();
-      break;
+      case 2:
+        if(m_autoTimer.Get() > .3_s){
+          m_autoCounter++;
+          RestartAutoTimer();
+          fmt::print("[Robot] Staged For Next Ball\n");
+          break;
+        }
+        m_robotLauncher.LaunchBall();
+        m_robotRake.DisengageRake();
+        m_robotRake.EngageBallStaging();
+        break;
+      case 3:
+        if(m_autoTimer.Get() > 3_s){
+          m_autoCounter++;
+          RestartAutoTimer();
+          fmt::print("[Robot] Launched Ball\n");
+          break;
+        }
+        m_robotLauncher.EngageBallStaging();
+        break;
+      case 4:
+        if(m_autoTimer.Get() > .3_s){
+          m_autoCounter++;
+          RestartAutoTimer();
+          fmt::print("[Robot] Staged For Next Ball\n");
+          break;
+        }
+        m_robotLauncher.LaunchBall();
+        break;
+    }
+
+    //auto 2
+  } else {
+    switch (m_autoCounter)
+    {
+      case 0:
+        if (distanceTraveled < 8) {
+          m_robotDrive.Forward(1.0 / 2.0);
+          fmt::print("[Robot] Distance Travled(ft): " + std::to_string(distanceTraveled) + "\n");
+        }
+        else if (velocity < .005){
+          m_autoCounter++;
+          RestartAutoTimer();
+          fmt::print("[Robot] Launched Ball\n");
+        }
+        break;
+      case 1:
+        if(m_autoTimer.Get() > .3_s){
+          m_autoCounter++;
+          RestartAutoTimer();
+          fmt::print("[Robot] Staged For Next Ball\n");
+          break;
+        }
+        m_robotLauncher.LaunchBall();
+        m_robotRake.DisengageRake();
+        break;
+      case 2:
+        if(m_autoTimer.Get() > 3_s){
+          m_autoCounter++;
+          RestartAutoTimer();
+          fmt::print("[Robot] Launched Ball\n");
+          break;
+        }
+        m_robotLauncher.EngageBallStaging();
+        break;
+      case 3:
+        if(m_autoTimer.Get() > .3_s){
+          m_autoCounter++;
+          RestartAutoTimer();
+          fmt::print("[Robot] Staged For Next Ball\n");
+          break;
+        }
+        m_robotLauncher.LaunchBall();
+        break;
+    }
   }
+
+  
 }
 
 void Robot::TeleopInit() {

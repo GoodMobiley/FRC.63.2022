@@ -46,7 +46,6 @@ void RapidReactClimb::Periodic(){
             m_rightHookMotor.StopMotor();
         }
     }
-
     if (m_hookExtensionStatus <= 0 && m_rightLimitSwitch.Get() && m_leftLimitSwitch.Get()){
         m_hookExtensionStatus = -2;
         DisengageMotors();
