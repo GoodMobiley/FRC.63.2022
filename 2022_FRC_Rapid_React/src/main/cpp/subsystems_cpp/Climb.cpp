@@ -34,9 +34,6 @@ void RapidReactClimb::Periodic(){
         }
     }
     else if (m_hookExtensionStatus == -1){//|| m_hookExtentionStatus == -2){
-        if (m_rightLimitSwitch.Get() && m_leftLimitSwitch.Get()){
-            m_hookExtensionStatus = -2;
-        }
         if (!m_leftLimitSwitch.Get()) {
             m_leftHookMotor.Set(-m_hookRetractPower * 0.8);
         } else {
@@ -48,6 +45,11 @@ void RapidReactClimb::Periodic(){
         } else {
             m_rightHookMotor.StopMotor();
         }
+    }
+
+    if (m_hookExtensionStatus <= 0 && m_rightLimitSwitch.Get() && m_leftLimitSwitch.Get()){
+        m_hookExtensionStatus = -2;
+        DisengageMotors();
     }
 
     m_hookRotation = m_hookRotationEncoder.GetPosition() / RobotMap::HOOK_ENCODER_UNITS_PER_REV * 360;
@@ -74,7 +76,7 @@ void RapidReactClimb::Periodic(){
             RetractHooks(RobotMap::HOOK_RETRACT_MOTOR_POWER_CLIMB);
             break;
         case 1:
-            if(m_climbTimer.Get() > .25_s){//go to next stage after .5 sec
+            if(m_climbTimer.Get() > .5_s){//go to next stage after .5 sec
                 m_climbStageCounter++;
                 break;
             }
@@ -103,12 +105,12 @@ void RapidReactClimb::Periodic(){
             ExtendHooks();
             break;
         case 5:
-            if(HookRotationAt(-60)){//go to next stage if hooks at -60
+            if(HookRotationAt(-70)){//go to next stage if hooks at -60
                 m_climbStageCounter++;
                 m_climbTimer.Reset();   m_climbTimer.Start();
                 break;
             }
-            SetHookAngle(-60);
+            SetHookAngle(-70);
             break;
         case 6:
             if(m_climbTimer.Get() > 1.25_s){//go to next stage after 1.25 sec
@@ -136,8 +138,6 @@ void RapidReactClimb::SimulationPeriodic(){
 
 void RapidReactClimb::RetractHooks(double power){
     m_hookRetractPower = power;
-    m_leftHookMotor.Set(-power);
-    m_rightHookMotor.Set(-power);
     m_hookExtensionStatus = -1;
 }
 void RapidReactClimb::ExtendHooks(){
