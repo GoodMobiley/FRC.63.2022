@@ -34,7 +34,7 @@ class RapidReactClimb: public frc2::SubsystemBase{
         const double
             m_angleFudge = 2;
         const units::second_t
-            m_leftExtensionTime = 2.1_s,
+            m_leftExtensionTime = 1.9_s,
             m_rightExtensionTime = 2.1_s;
 
         double 

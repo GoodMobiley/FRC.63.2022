@@ -38,7 +38,7 @@ void RapidReactClimb::Periodic(){
             m_hookExtensionStatus = -2;
         }
         if (!m_leftLimitSwitch.Get()) {
-            m_leftHookMotor.Set(-m_hookRetractPower);
+            m_leftHookMotor.Set(-m_hookRetractPower * 0.8);
         } else {
             m_leftHookMotor.StopMotor();
         }
