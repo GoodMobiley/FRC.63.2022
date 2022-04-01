@@ -51,12 +51,12 @@ void RapidReactClimb::Periodic(){
         DisengageMotors();
     }
 
-    m_hookRotation = m_hookRotationEncoder.GetPosition() / RobotMap::HOOK_ENCODER_UNITS_PER_REV * 360;
+    m_hookAngle = m_hookRotationEncoder.GetPosition() / RobotMap::HOOK_ENCODER_UNITS_PER_REV * 360;
     if(m_hooksSet){
-        if (m_hookRotation < m_targetHookRotation - m_angleFudge){
+        if (m_hookAngle < m_targetHookRotation - m_angleFudge){
             m_hookRotationMotor.Set(RobotMap::HOOK_ROTATION_MOTOR_POWER);
         }
-        else if (m_hookRotation > m_targetHookRotation + m_angleFudge){
+        else if (m_hookAngle > m_targetHookRotation + m_angleFudge){
             m_hookRotationMotor.Set(-RobotMap::HOOK_ROTATION_MOTOR_POWER);
         }
         else{
@@ -89,11 +89,11 @@ void RapidReactClimb::Periodic(){
             RetractHooks(RobotMap::HOOK_RETRACT_MOTOR_POWER_RETURN);
             break;
         case 3:
-            if(HookRotationAt(-40)){//go to next stage if hooks at -40 deg
+            if(HookRotationAt(-20)){//go to next stage if hooks at -40 deg
                 m_climbStageCounter++;
                 break;
             }
-            SetHookAngle(-40);
+            SetHookAngle(-20);
             RetractHooks(RobotMap::HOOK_RETRACT_MOTOR_POWER_RETURN);
             break;
         case 4:
@@ -123,7 +123,6 @@ void RapidReactClimb::Periodic(){
                 m_climbStageCounter++;
                 break;
             }
-            RetractHooks(RobotMap::HOOK_RETRACT_MOTOR_POWER_CLIMB);
             SetHookAngle(0);
             break;
         default:
@@ -164,8 +163,8 @@ void RapidReactClimb::JogHookRotation(double power){
     m_hookRotationMotor.Set(power);
 }
 bool RapidReactClimb::HookRotationAt(double angle){
-    m_hookRotation = m_hookRotationEncoder.GetPosition() / RobotMap::HOOK_ENCODER_UNITS_PER_REV * 360;
-    return (m_hookRotation > angle - m_angleFudge && m_hookRotation < angle + m_angleFudge);
+    m_hookAngle = m_hookRotationEncoder.GetPosition() / RobotMap::HOOK_ENCODER_UNITS_PER_REV * 360;
+    return (m_hookAngle > angle - m_angleFudge && m_hookAngle < angle + m_angleFudge);
 }
 
 void RapidReactClimb::StartClimbCycle(){
@@ -181,6 +180,11 @@ void RapidReactClimb::Iterate(frc::XboxController & controller){
     if (m_climbStageCounter < 8){
         if (controller.GetBButton()){
             CancleClimbCycle();
+        }
+        if (controller.GetXButton()){
+            CancleClimbCycle();
+            DisengageMotors();
+            SetHookAngle(m_hookAngle);
         }
     } else {
         if (controller.GetLeftTriggerAxis() > .5){

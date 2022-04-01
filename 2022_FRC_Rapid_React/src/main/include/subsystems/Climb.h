@@ -38,7 +38,7 @@ class RapidReactClimb: public frc2::SubsystemBase{
             m_rightExtensionTime = 2.1_s;
 
         double 
-            m_hookRotation = 0,
+            m_hookAngle = 0,
             m_targetHookRotation = 0,
             m_hookRetractPower = RobotMap::HOOK_RETRACT_MOTOR_POWER_RETURN;
 

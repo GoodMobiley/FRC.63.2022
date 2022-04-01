@@ -103,6 +103,10 @@ void RapidReactDrive::Forward(double power){
     m_drive.DriveCartesian(power, 0, 0, 0);
 }
 
+void RapidReactDrive::Rotate(double power){
+    m_drive.DriveCartesian(0, 0, power, 0);
+}
+
 void RapidReactDrive::Iterate(frc::XboxController &controller){
     m_drive.DriveCartesian(
         pow(-controller.GetLeftY(), 1) * .8, 

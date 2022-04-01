@@ -18,8 +18,10 @@
 #include <frc/DigitalInput.h>
 #include <frc/smartdashboard/SendableChooser.h>
 #include <frc/Timer.h>
-
 #include <frc/Compressor.h>
+//#include <hal/SimDevice.h>
+//#include <hal/simulation/SimDeviceData.h>
+
 
 class Robot : public frc::TimedRobot {
  public:
@@ -48,6 +50,9 @@ class Robot : public frc::TimedRobot {
   std::string m_autoSelected;
 
   frc::DigitalInput m_autoSwitch{1};
+
+  //HAL_SimDeviceHandle dev = HALSIM_GetSimDeviceHandle("navX-Sensor[1]");
+  //hal::SimDouble angle = HALSIM_GetSimValueHandle(dev, "Yaw");
 
   frc::XboxController 
     m_pilot{RobotMap::PILOT_CONTROLLER},

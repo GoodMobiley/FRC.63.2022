@@ -18,6 +18,8 @@ void Robot::RobotInit() {
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
 
+  //frc::CameraServer::StartAutomaticCapture();
+
   m_compressor.EnableDigital();
   m_robotClimb.ResetEncoders();
 }
@@ -100,7 +102,7 @@ void Robot::AutonomousPeriodic() {
         }
         break;
       case 1:
-        if (distanceTraveled > 5){
+        if (distanceTraveled > 4.5){
           m_robotDrive.Reverse(1.0 / 2.0);
           fmt::print("[Robot] Distance Travled(ft): " + std::to_string(distanceTraveled) + "\n");
         } 
